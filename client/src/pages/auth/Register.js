@@ -1,14 +1,15 @@
 import React, { useState } from "react";
 import { auth } from "../../firebase";
-import { toast, ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 
 const Register = () => {
   const [email, setEmail] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     const config = {
-      url: "http://localhost:3000/resgister/complete",
+      url: process.env.REACT_APP_API_URL,
       handleCodeInApp: true,
     };
     await auth.sendSignInLinkToEmail(email, config);
@@ -42,7 +43,6 @@ const Register = () => {
           <h4>Register</h4>
           <p>Register Form</p>
           {registerForm()}
-          <ToastContainer />
         </div>
       </div>
     </div>
