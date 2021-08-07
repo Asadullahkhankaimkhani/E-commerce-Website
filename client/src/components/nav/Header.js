@@ -18,6 +18,7 @@ const Header = () => {
   return (
     <Menu onClick={handleClick} selectedKeys={[current]} mode="horizontal">
       <Menu.Item key="mail" icon={<MailOutlined />}>
+        Home
       </Menu.Item>
       <SubMenu key="SubMenu" icon={<SettingOutlined />} title="Register">
         <Menu.Item key="setting:1">Option 1</Menu.Item>
