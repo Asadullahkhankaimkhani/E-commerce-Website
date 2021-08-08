@@ -2,10 +2,8 @@ const express = require("express");
 const mongoose = require("mongoose");
 const morgan = require("morgan");
 const cors = require("cors");
+const fs = require("fs");
 require("dotenv").config();
-
-//import routes
-const authRoutes = require("./routes/auth");
 
 // App
 const app = express();
@@ -30,7 +28,9 @@ app.use(express.json());
 app.use(cors());
 
 // route
-app.use("/api", authRoutes);
+fs.readdirSync("./routes").map((r) =>
+  app.use("/api", require(`./routes/${r}`))
+);
 
 // PORT
 const port = process.env.PORT || 8000;
