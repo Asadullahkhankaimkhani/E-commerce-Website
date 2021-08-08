@@ -28,10 +28,12 @@ const Register = () => {
       <input
         type="email"
         className="form-control"
+        placeholder="Your Email"
         value={email}
         onChange={(e) => setEmail(e.target.value)}
         autoFocus
       />
+      <br />
       <button className="btn btn-raised p-1">Register</button>
     </form>
   );

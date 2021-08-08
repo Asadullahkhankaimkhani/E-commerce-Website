@@ -45,7 +45,7 @@ const Header = () => {
       >
         <Item key="setting:1">Option 1</Item>
         <Item key="setting:2">Option 2</Item>
-        <Item icon={<UserOutlined />} onClick={logout}>
+        <Item icon={<LogoutOutlined />} onClick={logout}>
           Logout
         </Item>
       </SubMenu>
@@ -53,7 +53,7 @@ const Header = () => {
       <Item key="login" icon={<UserOutlined />}>
         <Link to="/login">Login</Link>
       </Item>
-      <Item key="register" icon={<LogoutOutlined />}>
+      <Item key="register" icon={<UserAddOutlined />}>
         <Link to="/register">Register</Link>
       </Item>
     </Menu>
