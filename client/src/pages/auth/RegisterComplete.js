@@ -1,11 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { auth } from "../../firebase";
 import { toast } from "react-toastify";
+import { useSelector } from "react-redux";
 
 const CompleteRegister = ({ history }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  const { user } = useSelector((state) => ({ ...state }));
+
+  useEffect(() => {
+    if (user && user.token) history.push("/");
+  }, [user]);
   useEffect(() => {
     setEmail(window.localStorage.getItem("emailForRegistration"));
   }, []);

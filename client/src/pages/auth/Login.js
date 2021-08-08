@@ -1,10 +1,10 @@
 import React from "react";
 import { auth, googleAuthProvider } from "../../firebase";
 import { toast } from "react-toastify";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "antd";
 import { GoogleOutlined, MailOutlined } from "@ant-design/icons";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { LoadingOutlined } from "@ant-design/icons";
 import { Link } from "react-router-dom";
 
@@ -15,6 +15,11 @@ const Login = ({ history }) => {
   const [gloading, setGLoading] = useState(false);
   const dispatch = useDispatch();
 
+  const { user } = useSelector((state) => ({ ...state }));
+
+  useEffect(() => {
+    if (user && user.token) history.push("/");
+  }, [user]);
   const googleLogin = async () => {
     setGLoading(true);
     auth
