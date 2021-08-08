@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { auth } from "../../firebase";
 import { toast } from "react-toastify";
 
-const CompleteRegister = () => {
+const CompleteRegister = ({ history }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -12,6 +12,40 @@ const CompleteRegister = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // Validation
+
+    if (!email || !password) {
+      toast.error("Email and password is required");
+      return;
+    }
+    if (password.length < 6) {
+      toast.error("Password must be greater than 6 character");
+      return;
+    }
+
+    try {
+      const result = await auth.signInWithEmailLink(
+        email,
+        window.location.href
+      );
+      // console.log(result);
+      if (result.user.emailVerified) {
+        // remove user email from local storage
+        window.localStorage.removeItem("emailForRegistration");
+        // get user id token
+        let user = auth.currentUser;
+        await user.updatePassword(password);
+        const idTokenResult = await user.getIdTokenResult();
+        // redux store
+        console.log("user => ", user, "idToken=> ", idTokenResult);
+        // redirect
+        history.push("/");
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error(error.message);
+    }
   };
 
   const completeRegistrationForm = () => (
@@ -26,7 +60,7 @@ const CompleteRegister = () => {
         placeholder="Password"
       />
       <br />
-      <button className="btn btn-raised p-1">Register</button>
+      <button className="btn btn-raised p-1">Complete Registration</button>
     </form>
   );
 
