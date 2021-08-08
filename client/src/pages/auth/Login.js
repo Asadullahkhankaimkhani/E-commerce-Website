@@ -1,17 +1,39 @@
 import React from "react";
-import { auth } from "../../firebase";
+import { auth, googleAuthProvider } from "../../firebase";
 import { toast } from "react-toastify";
 import { useState } from "react";
 import { Button } from "antd";
-import { MailOutlined } from "@ant-design/icons";
+import { GoogleOutlined, MailOutlined } from "@ant-design/icons";
 import { useDispatch } from "react-redux";
-import { Spin } from "antd";
 import { LoadingOutlined } from "@ant-design/icons";
 const Login = ({ history }) => {
   const [email, setEmail] = useState("asadullahk15@gmail.com");
   const [password, setPassword] = useState("asad1190");
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
+
+  const googleLogin = async () => {
+    auth
+      .signInWithPopup(googleAuthProvider)
+      .then(async (result) => {
+        const { user } = result;
+        const idTokenResult = await user.getIdToken();
+        dispatch({
+          type: "LOGGED_IN_USER",
+          payload: {
+            email: user.email,
+            token: idTokenResult.token,
+          },
+        });
+        history.push("/");
+      })
+      .catch((err) => {
+        console.log(err);
+        toast.error(err.message);
+      });
+  };
+
+  // lOGIN Function
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -36,6 +58,7 @@ const Login = ({ history }) => {
     }
   };
 
+  // Form Function
   const loginForm = () => (
     <form onSubmit={handleSubmit}>
       <div className="form-group">
@@ -59,7 +82,7 @@ const Login = ({ history }) => {
       </div>
 
       <Button
-        className="mb-3"
+        className="mb-2"
         type="primary"
         onClick={handleSubmit}
         block
@@ -80,6 +103,17 @@ const Login = ({ history }) => {
           <h4>Login</h4>
           <p>Login with your email and password</p>
           {loginForm()}
+          <Button
+            className="mb-3"
+            type="danger"
+            onClick={googleLogin}
+            block
+            shape="round"
+            icon={loading ? <LoadingOutlined spin /> : <GoogleOutlined />}
+            size="large"
+          >
+            Login with your Google Account
+          </Button>
         </div>
       </div>
     </div>
