@@ -4,12 +4,36 @@ import { toast } from "react-toastify";
 import { useState } from "react";
 import { Button } from "antd";
 import { MailOutlined } from "@ant-design/icons";
-const Login = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-
+import { useDispatch } from "react-redux";
+import { Spin } from "antd";
+import { LoadingOutlined } from "@ant-design/icons";
+const Login = ({ history }) => {
+  const [email, setEmail] = useState("asadullahk15@gmail.com");
+  const [password, setPassword] = useState("asad1190");
+  const [loading, setLoading] = useState(false);
+  const dispatch = useDispatch();
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
+    try {
+      const result = await auth.signInWithEmailAndPassword(email, password);
+
+      const { user } = result;
+      const idTokenResult = await user.getIdTokenResult();
+
+      dispatch({
+        type: "LOGGED_IN_USER",
+        payload: {
+          email: user.email,
+          token: idTokenResult.token,
+        },
+      });
+      history.push("/");
+    } catch (error) {
+      setLoading(false);
+      console.log(error);
+      toast.error(error.message);
+    }
   };
 
   const loginForm = () => (
@@ -40,11 +64,11 @@ const Login = () => {
         onClick={handleSubmit}
         block
         shape="round"
-        icon={<MailOutlined />}
+        icon={loading ? <LoadingOutlined spin /> : <MailOutlined />}
         size="large"
         disabled={!email || password.length < 6}
       >
-        Login with Email/Password
+        Login with your Email/Password
       </Button>
     </form>
   );
