@@ -6,13 +6,17 @@ import { Button } from "antd";
 import { GoogleOutlined, MailOutlined } from "@ant-design/icons";
 import { useDispatch } from "react-redux";
 import { LoadingOutlined } from "@ant-design/icons";
+import { Link } from "react-router-dom";
+
 const Login = ({ history }) => {
   const [email, setEmail] = useState("asadullahk15@gmail.com");
   const [password, setPassword] = useState("asad1190");
   const [loading, setLoading] = useState(false);
+  const [gloading, setGLoading] = useState(false);
   const dispatch = useDispatch();
 
   const googleLogin = async () => {
+    setGLoading(true);
     auth
       .signInWithPopup(googleAuthProvider)
       .then(async (result) => {
@@ -28,6 +32,7 @@ const Login = ({ history }) => {
         history.push("/");
       })
       .catch((err) => {
+        setGLoading(false);
         console.log(err);
         toast.error(err.message);
       });
@@ -109,11 +114,14 @@ const Login = ({ history }) => {
             onClick={googleLogin}
             block
             shape="round"
-            icon={loading ? <LoadingOutlined spin /> : <GoogleOutlined />}
+            icon={gloading ? <LoadingOutlined spin /> : <GoogleOutlined />}
             size="large"
           >
             Login with your Google Account
           </Button>
+          <Link to="/forgot/password" className="float-right text-danger">
+            Forgot Password
+          </Link>
         </div>
       </div>
     </div>

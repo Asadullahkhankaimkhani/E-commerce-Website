@@ -50,7 +50,7 @@ const CompleteRegister = ({ history }) => {
 
   const completeRegistrationForm = () => (
     <form onSubmit={handleSubmit}>
-      <input type="email" className="form-control" value={email} disabled />
+      <input type="email" className="form-control" value={email} />
       <br />
       <input
         type="password"
