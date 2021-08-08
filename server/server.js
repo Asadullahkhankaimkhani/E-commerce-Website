@@ -4,17 +4,11 @@ const morgan = require("morgan");
 const cors = require("cors");
 require("dotenv").config();
 
+//import routes
+const authRoutes = require("./routes/auth");
+
 // App
 const app = express();
-// Db
-// mongoose
-//   .connect(process.env.DATABASE, {
-//     useNewUrlParser: true,
-//     useCreateIndex: true,
-//     useFindAndModify: true,
-//   })
-//   .then(console.log("## DATABASE CONNECTED ##"))
-//   .catch((err) => console.log("DB Connectio Err", err));
 const dbConnect = async () => {
   try {
     await mongoose.connect(process.env.DATABASE, {
@@ -36,9 +30,7 @@ app.use(express.json());
 app.use(cors());
 
 // route
-app.get("/api", (req, res) => {
-  res.json({ name: "Asadullah Khan" });
-});
+app.use("/api", authRoutes);
 
 // PORT
 const port = process.env.PORT || 8000;
