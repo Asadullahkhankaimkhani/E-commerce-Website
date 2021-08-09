@@ -2,10 +2,8 @@ const express = require("express");
 const { model } = require("mongoose");
 const router = express.Router();
 
-router.get("/create-or-update-user", (req, res) => {
-  res.json({
-    data: "User create and update Api",
-  });
-});
+const { createOrUpadateUser } = require("../controllers/auth");
+
+router.get("/create-or-update-user", createOrUpadateUser);
 
 module.exports = router;
