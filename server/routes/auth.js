@@ -7,5 +7,5 @@ const { createOrUpadateUser, currentUser } = require("../controllers/auth");
 const { authCheck, adminCheck } = require("../middleware/auth");
 router.post("/create-or-update-user", authCheck, createOrUpadateUser);
 router.post("/current-user", authCheck, currentUser);
-route.post("/current-user", authCheck, adminCheck.post, currentUser);
+router.post("/current-admin", authCheck, adminCheck, currentUser);
 module.exports = router;

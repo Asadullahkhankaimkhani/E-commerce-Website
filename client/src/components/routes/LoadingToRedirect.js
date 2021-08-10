@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useStore } from "react-redux";
+
 import { useHistory } from "react-router-dom";
 const LoadingToRedirect = () => {
   const [count, setCount] = useState(5);
@@ -12,7 +12,7 @@ const LoadingToRedirect = () => {
     count === 0 && history.push("/login");
     // cleanup
     return () => clearInterval(interval);
-  }, [count]);
+  }, [count, history]);
 
   return (
     <div className="container p-5 text-center">

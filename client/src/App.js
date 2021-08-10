@@ -12,9 +12,11 @@ import ForgotPassword from "./pages/auth/ForgotPassword";
 import History from "./pages/user/History";
 import Password from "./pages/user/Password";
 import Wishlist from "./pages/user/Wishlist";
+import AdminDashboard from "./pages/admin/AdminDashboard";
 // Componnets
 import Header from "./components/nav/Header";
 import UserRoute from "./components/routes/UserRoute";
+import AdminRoute from "./components/routes/AdminRoute";
 
 import "react-toastify/dist/ReactToastify.css";
 import { auth } from "./firebase";
@@ -67,6 +69,11 @@ const App = () => {
         <UserRoute exact path="/user/history" component={History}></UserRoute>
         <UserRoute exact path="/user/password" component={Password}></UserRoute>
         <UserRoute exact path="/user/wishlist" component={Wishlist}></UserRoute>
+        <AdminRoute
+          exact
+          path="/admin/dashboard"
+          component={AdminDashboard}
+        ></AdminRoute>
       </Switch>
     </Fragment>
   );
