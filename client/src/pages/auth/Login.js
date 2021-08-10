@@ -7,22 +7,10 @@ import { GoogleOutlined, MailOutlined } from "@ant-design/icons";
 import { useDispatch, useSelector } from "react-redux";
 import { LoadingOutlined } from "@ant-design/icons";
 import { Link } from "react-router-dom";
-import axios from "axios";
-
-const createOrUpdateUser = async (authtoken) => {
-  return await axios.post(
-    `${process.env.REACT_APP_API}/create-or-update-user`,
-    {},
-    {
-      headers: {
-        authtoken,
-      },
-    }
-  );
-};
+import { createOrUpdateUser } from "../../functions/auth";
 
 const Login = ({ history }) => {
-  const [email, setEmail] = useState("asadullahk15@gmail.com");
+  const [email, setEmail] = useState("axad1190@gmail.com");
   const [password, setPassword] = useState("asad1190");
   const [loading, setLoading] = useState(false);
   const [gloading, setGLoading] = useState(false);
@@ -32,7 +20,7 @@ const Login = ({ history }) => {
 
   useEffect(() => {
     if (user && user.token) history.push("/");
-  }, [user]);
+  }, [user, history]);
   const googleLogin = async () => {
     setGLoading(true);
     auth
@@ -45,11 +33,11 @@ const Login = ({ history }) => {
             dispatch({
               type: "LOGGED_IN_USER",
               payload: {
+                token: idTokenResult.token,
                 _id: res.data.user._id,
                 name: res.data.user.name,
                 email: res.data.user.email,
                 role: res.data.user.role,
-                token: idTokenResult.token,
               },
             });
           })
@@ -74,14 +62,13 @@ const Login = ({ history }) => {
       const idTokenResult = await user.getIdTokenResult();
       createOrUpdateUser(idTokenResult.token)
         .then((res) => {
-          const { user } = res.data;
           dispatch({
             type: "LOGGED_IN_USER",
             payload: {
-              _id: user._id,
-              name: user.name,
-              email: user.email,
-              role: user.role,
+              _id: res.data.user._id,
+              name: res.data.user.name,
+              email: res.data.user.email,
+              role: res.data.user.role,
               token: idTokenResult.token,
             },
           });

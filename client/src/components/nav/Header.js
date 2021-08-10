@@ -39,10 +39,14 @@ const Header = () => {
         <Link to="/">Home</Link>
       </Item>
       {user && (
-        <SubMenu key="SubMenu" icon={<SettingOutlined />} title={user.name}>
+        <SubMenu
+          key="SubMenu"
+          icon={<SettingOutlined />}
+          title={user.email.split("@")[0]}
+        >
           <Item key="setting:1">Option 1</Item>
           <Item key="setting:2">Option 2</Item>
-          <Item icon={<LogoutOutlined />} onClick={logout}>
+          <Item key="log-out" icon={<LogoutOutlined />} onClick={logout}>
             Logout
           </Item>
         </SubMenu>

@@ -34,7 +34,7 @@ const App = () => {
       }
     });
     return () => unsubcribe();
-  }, []);
+  }, [dispatch]);
 
   return (
     <Fragment>
