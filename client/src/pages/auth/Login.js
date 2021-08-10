@@ -21,6 +21,15 @@ const Login = ({ history }) => {
   useEffect(() => {
     if (user && user.token) history.push("/");
   }, [user, history]);
+
+  const roleBasedRedirect = (res) => {
+    if (res.data.user.role === "admin") {
+      history.push("/admin/dashboard");
+    } else {
+      history.push("/user/history");
+    }
+  };
+
   const googleLogin = async () => {
     setGLoading(true);
     auth
@@ -40,9 +49,10 @@ const Login = ({ history }) => {
                 role: res.data.user.role,
               },
             });
+            roleBasedRedirect(res);
           })
           .catch((err) => console.log("Err => ", err));
-        history.push("/");
+        //  history.push("/");
       })
       .catch((err) => {
         setGLoading(false);
@@ -72,10 +82,11 @@ const Login = ({ history }) => {
               token: idTokenResult.token,
             },
           });
+          roleBasedRedirect(res);
         })
         .catch((err) => console.log("Err => ", err));
 
-      history.push("/");
+      // history.push("/");
     } catch (error) {
       setLoading(false);
       console.log(error);
