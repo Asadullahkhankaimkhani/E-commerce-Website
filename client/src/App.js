@@ -16,6 +16,9 @@ import "react-toastify/dist/ReactToastify.css";
 import { auth } from "./firebase";
 import { useDispatch } from "react-redux";
 
+// Functions
+import { currentUser } from "./functions/auth";
+
 const App = () => {
   const dispatch = useDispatch();
 
@@ -24,13 +27,20 @@ const App = () => {
     const unsubcribe = auth.onAuthStateChanged(async (user) => {
       if (user) {
         const idTokenResult = await user.getIdTokenResult();
-        dispatch({
-          type: "LOGGED_IN_USER",
-          payload: {
-            email: user.email,
-            token: idTokenResult.token,
-          },
-        });
+        currentUser(idTokenResult.token)
+          .then((res) => {
+            dispatch({
+              type: "LOGGED_IN_USER",
+              payload: {
+                _id: res.data.user._id,
+                name: res.data.user.name,
+                email: res.data.user.email,
+                role: res.data.user.role,
+                token: idTokenResult.token,
+              },
+            });
+          })
+          .catch((err) => console.log("Err => ", err));
       }
     });
     return () => unsubcribe();
