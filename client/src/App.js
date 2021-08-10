@@ -9,8 +9,10 @@ import Register from "./pages/auth/Register";
 import RegisterComplete from "./pages/auth/RegisterComplete";
 import Home from "./pages/Home";
 import ForgotPassword from "./pages/auth/ForgotPassword";
+import History from "./pages/user/History";
 // Componnets
 import Header from "./components/nav/Header";
+import UserRoute from "./components/routes/UserRoute";
 
 import "react-toastify/dist/ReactToastify.css";
 import { auth } from "./firebase";
@@ -60,6 +62,7 @@ const App = () => {
           component={RegisterComplete}
         ></Route>
         <Route exact path="/forgot/password" component={ForgotPassword}></Route>
+        <UserRoute exact path="/user/history" component={History}></UserRoute>
       </Switch>
     </Fragment>
   );
