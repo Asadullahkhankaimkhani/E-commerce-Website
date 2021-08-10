@@ -39,14 +39,21 @@ const Login = ({ history }) => {
       .signInWithPopup(googleAuthProvider)
       .then(async (result) => {
         const { user } = result;
-        const idTokenResult = await user.getIdToken();
-        dispatch({
-          type: "LOGGED_IN_USER",
-          payload: {
-            email: user.email,
-            token: idTokenResult.token,
-          },
-        });
+        const idTokenResult = await user.getIdTokenResult();
+        createOrUpdateUser(idTokenResult.token)
+          .then((res) => {
+            dispatch({
+              type: "LOGGED_IN_USER",
+              payload: {
+                _id: res.data.user._id,
+                name: res.data.user.name,
+                email: res.data.user.email,
+                role: res.data.user.role,
+                token: idTokenResult.token,
+              },
+            });
+          })
+          .catch((err) => console.log("Err => ", err));
         history.push("/");
       })
       .catch((err) => {
@@ -66,17 +73,22 @@ const Login = ({ history }) => {
       const { user } = result;
       const idTokenResult = await user.getIdTokenResult();
       createOrUpdateUser(idTokenResult.token)
-        .then((res) => console.log("Create or Update Res", res))
+        .then((res) => {
+          const { user } = res.data;
+          dispatch({
+            type: "LOGGED_IN_USER",
+            payload: {
+              _id: user._id,
+              name: user.name,
+              email: user.email,
+              role: user.role,
+              token: idTokenResult.token,
+            },
+          });
+        })
         .catch((err) => console.log("Err => ", err));
 
-      // dispatch({
-      //   type: "LOGGED_IN_USER",
-      //   payload: {
-      //     email: user.email,
-      //     token: idTokenResult.token,
-      //   },
-      // });
-      // history.push("/");
+      history.push("/");
     } catch (error) {
       setLoading(false);
       console.log(error);
