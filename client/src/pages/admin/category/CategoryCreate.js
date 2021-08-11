@@ -9,6 +9,7 @@ import {
 } from "../../../functions/category";
 import { Link } from "react-router-dom";
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
+import CategoryForms from "../../../components/forms/CategoryForms";
 
 const CategoryCreate = () => {
   // states
@@ -66,27 +67,6 @@ const CategoryCreate = () => {
       });
   };
 
-  // Form
-  const categoryForm = () => {
-    return (
-      <form onSubmit={handleSubmit}>
-        <div className="form-group">
-          <label>Name</label>
-          <input
-            type="text"
-            className="form-control"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            required
-          />
-          <br />
-
-          <button className="btn btn-outline-primary"> Save</button>
-        </div>
-      </form>
-    );
-  };
-
   return (
     <>
       <div className="container-fluid">
@@ -96,7 +76,12 @@ const CategoryCreate = () => {
           </div>
           <div className="col">
             <h4>Create a Category</h4>
-            {categoryForm()}
+            <CategoryForms
+              name={name}
+              setName={setName}
+              btnName="Save"
+              handleSubmit={handleSubmit}
+            />
             <hr />
             {categories.map((c) => (
               <div className="alert alert-secondary" key={c._id}>

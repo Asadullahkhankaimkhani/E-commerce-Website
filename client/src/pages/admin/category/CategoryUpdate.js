@@ -3,6 +3,7 @@ import AdminNav from "../../../components/nav/AdminNav";
 import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
 import { getCategory, updateCategory } from "../../../functions/category";
+import CategoryForms from "../../../components/forms/CategoryForms";
 
 const CategoryUpdate = ({ history, match }) => {
   // states
@@ -41,27 +42,6 @@ const CategoryUpdate = ({ history, match }) => {
       });
   };
 
-  // Form
-  const categoryForm = () => {
-    return (
-      <form onSubmit={handleSubmit}>
-        <div className="form-group">
-          <label>Name</label>
-          <input
-            type="text"
-            className="form-control"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            required
-          />
-          <br />
-
-          <button className="btn btn-outline-primary"> update</button>
-        </div>
-      </form>
-    );
-  };
-
   return (
     <>
       <div className="container-fluid">
@@ -71,7 +51,12 @@ const CategoryUpdate = ({ history, match }) => {
           </div>
           <div className="col">
             <h4>Update Category</h4>
-            {categoryForm()}
+            <CategoryForms
+              name={name}
+              setName={setName}
+              btnName="Update"
+              handleSubmit={handleSubmit}
+            />
             <hr />
           </div>
         </div>
