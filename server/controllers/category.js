@@ -12,14 +12,34 @@ exports.create = async (req, res) => {
 };
 
 exports.list = async (req, res) => {
-  ///
+  const data = await Category.find({}).sort({ createdAt: -1 }).exec();
+  res.json(data);
 };
 exports.read = async (req, res) => {
-  ///
+  let category = await Category.findOne({ slug: req.params.slug }).exec();
+  res.json(category);
 };
 exports.update = async (req, res) => {
-  ///
+  const { name } = req.body;
+
+  try {
+    const update = await Category.findOneAndUpdate(
+      { slug: req.params.slug },
+      { name, slug: slugify(name) },
+      { new: true }
+    );
+    res.json(update);
+  } catch (error) {
+    res.status(400).send("Create update failed");
+  }
 };
 exports.remove = async (req, res) => {
-  ///
+  try {
+    let category = await Category.findOneAndDelete({
+      slug: req.params.slug,
+    }).exec();
+    res.json(category);
+  } catch (error) {
+    res.status(400).send("Create delete failed");
+  }
 };
