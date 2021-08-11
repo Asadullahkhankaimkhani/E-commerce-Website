@@ -14,6 +14,7 @@ import Password from "./pages/user/Password";
 import Wishlist from "./pages/user/Wishlist";
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import CategoryCreate from "./pages/admin/category/CategoryCreate";
+import CategoryUpdate from "./pages/admin/category/CategoryUpdate";
 // Componnets
 import Header from "./components/nav/Header";
 import UserRoute from "./components/routes/UserRoute";
@@ -79,6 +80,11 @@ const App = () => {
           exact
           path="/admin/category"
           component={CategoryCreate}
+        ></AdminRoute>
+        <AdminRoute
+          exact
+          path="/admin/category/:slug"
+          component={CategoryUpdate}
         ></AdminRoute>
       </Switch>
     </Fragment>
