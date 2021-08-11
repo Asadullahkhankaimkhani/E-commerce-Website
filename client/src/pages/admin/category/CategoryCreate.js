@@ -16,6 +16,7 @@ const CategoryCreate = () => {
   const [name, setName] = useState("");
   const [loading, setLoading] = useState(false);
   const [categories, setCategories] = useState([]);
+  const [keyword, setKeyword] = useState("");
   // Redux State
   const { user } = useSelector((state) => ({ ...state }));
   // useEffect fetch categores
@@ -47,6 +48,7 @@ const CategoryCreate = () => {
       if (error.response.status === 400) toast.error(error.response.data);
     }
   };
+
   // submit form
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -67,6 +69,15 @@ const CategoryCreate = () => {
       });
   };
 
+  // Handle Search
+  const handleSerach = (e) => {
+    e.preventDefault();
+    setKeyword(e.target.value.toLowerCase());
+  };
+
+  // serached
+  const searched = (keyword) => (c) => c.name.toLowerCase().includes(keyword);
+
   return (
     <>
       <div className="container-fluid">
@@ -82,8 +93,15 @@ const CategoryCreate = () => {
               btnName="Save"
               handleSubmit={handleSubmit}
             />
+            <input
+              type="search"
+              className="form-control"
+              placeholder="Fliter"
+              value={keyword}
+              onChange={handleSerach}
+            />
             <hr />
-            {categories.map((c) => (
+            {categories.filter(searched(keyword)).map((c) => (
               <div className="alert alert-secondary" key={c._id}>
                 {c.name}
                 <span
