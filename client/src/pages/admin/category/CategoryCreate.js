@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import AdminNav from "../../../components/nav/AdminNav";
+
 import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
 import {
@@ -10,6 +11,8 @@ import {
 import { Link } from "react-router-dom";
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import CategoryForms from "../../../components/forms/CategoryForms";
+
+import LocalSearch from "../../../components/forms/LocalSearch";
 
 const CategoryCreate = () => {
   // states
@@ -69,12 +72,6 @@ const CategoryCreate = () => {
       });
   };
 
-  // Handle Search
-  const handleSerach = (e) => {
-    e.preventDefault();
-    setKeyword(e.target.value.toLowerCase());
-  };
-
   // serached
   const searched = (keyword) => (c) => c.name.toLowerCase().includes(keyword);
 
@@ -93,13 +90,7 @@ const CategoryCreate = () => {
               btnName="Save"
               handleSubmit={handleSubmit}
             />
-            <input
-              type="search"
-              className="form-control"
-              placeholder="Fliter"
-              value={keyword}
-              onChange={handleSerach}
-            />
+            <LocalSearch keyword={keyword} setKeyword={setKeyword} />
             <hr />
             {categories.filter(searched(keyword)).map((c) => (
               <div className="alert alert-secondary" key={c._id}>
