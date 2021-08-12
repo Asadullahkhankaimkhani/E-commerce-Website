@@ -2,13 +2,7 @@ const express = require("express");
 
 const router = express.Router();
 // controllers
-const {
-  create,
-  list,
-  read,
-  remove,
-  update,
-} = require("../controllers/category");
+const { create, list, read, remove, update } = require("../controllers/sub");
 // middleware
 const { authCheck, adminCheck } = require("../middleware/auth");
 router.post("/sub", authCheck, adminCheck, create);

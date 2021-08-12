@@ -7,7 +7,7 @@ exports.create = async (req, res) => {
     const category = await new Category({ name, slug: slugify(name) }).save();
     res.json(category);
   } catch (error) {
-    res.status(400).send("Create categort Failed");
+    res.status(400).send("Create category Failed");
   }
 };
 
