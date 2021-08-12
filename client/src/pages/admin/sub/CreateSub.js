@@ -5,12 +5,7 @@ import LocalSearch from "../../../components/forms/LocalSearch";
 import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
 import { getCategories } from "../../../functions/category";
-import {
-  createSub,
-  getSubs,
-  removeSub,
-  updateSub,
-} from "../../../functions/sub";
+import { createSub, getSubs, removeSub } from "../../../functions/sub";
 import { Link } from "react-router-dom";
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 
@@ -130,7 +125,7 @@ const CreateSub = () => {
               >
                 <DeleteOutlined className="text-danger" />
               </span>{" "}
-              <Link to={`/admin/category/${s.slug}`}>
+              <Link to={`/admin/sub/${s.slug}`}>
                 <span className="btn btn-sm float-right">
                   <EditOutlined className="text-warning" />
                 </span>{" "}

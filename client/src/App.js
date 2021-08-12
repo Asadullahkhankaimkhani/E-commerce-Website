@@ -16,6 +16,7 @@ import AdminDashboard from "./pages/admin/AdminDashboard";
 import CategoryCreate from "./pages/admin/category/CategoryCreate";
 import CategoryUpdate from "./pages/admin/category/CategoryUpdate";
 import CreateSub from "./pages/admin/sub/CreateSub";
+import UpdateSub from "./pages/admin/sub/UpdateSub";
 // Componnets
 import Header from "./components/nav/Header";
 import UserRoute from "./components/routes/UserRoute";
@@ -27,6 +28,7 @@ import { useDispatch } from "react-redux";
 
 // Functions
 import { currentUser } from "./functions/auth";
+import { updateSub } from "./functions/sub";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -88,6 +90,11 @@ const App = () => {
           component={CategoryUpdate}
         ></AdminRoute>
         <AdminRoute exact path="/admin/sub" component={CreateSub}></AdminRoute>
+        <AdminRoute
+          exact
+          path="/admin/sub/:slug"
+          component={UpdateSub}
+        ></AdminRoute>
       </Switch>
     </Fragment>
   );
