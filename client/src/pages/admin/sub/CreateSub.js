@@ -5,12 +5,22 @@ import LocalSearch from "../../../components/forms/LocalSearch";
 import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
 import { getCategories } from "../../../functions/category";
-import { createSub } from "../../../functions/sub";
+import {
+  createSub,
+  getSubs,
+  removeSub,
+  updateSub,
+} from "../../../functions/sub";
+import { Link } from "react-router-dom";
+import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 
 import { useState, useEffect } from "react";
 
 const CreateSub = () => {
   const [categories, setCategories] = useState([]);
+  const [subs, setSubs] = useState([]);
+  const [loading, setLoading] = useState(false);
+
   const [name, setName] = useState("");
   const [keyword, setKeyword] = useState("");
   const [category, setCategory] = useState("");
@@ -19,6 +29,7 @@ const CreateSub = () => {
 
   useEffect(() => {
     loadcategories();
+    loadSubs();
   }, []);
 
   const loadcategories = async () => {
@@ -30,13 +41,22 @@ const CreateSub = () => {
     }
   };
 
+  const loadSubs = async () => {
+    try {
+      const res = await getSubs();
+      setSubs(res.data);
+    } catch (error) {
+      if (error.response.status === 400) toast.error(error.response.data);
+    }
+  };
+
   // handle Submit
   const handleSubmit = (e) => {
     e.preventDefault();
     createSub({ name, parent: category }, user.token)
       .then((res) => {
         setName("");
-
+        loadSubs();
         toast.success(`${res.data.name} is created`);
       })
       .catch((error) => {
@@ -45,6 +65,27 @@ const CreateSub = () => {
         toast.error(error.response.data);
       });
   };
+
+  // handle Remove
+
+  const handleRemove = async (slug) => {
+    let ans = window.confirm("Delete?");
+
+    if (ans) {
+      setLoading(true);
+      try {
+        const res = await removeSub(slug, user.token);
+        setLoading(false);
+        toast.error(`${res.data.name} deleted`);
+
+        loadSubs();
+      } catch (error) {
+        if (error.response.status === 400) toast.error(error.response.data);
+      }
+    }
+  };
+  // serached
+  const searched = (keyword) => (c) => c.name.toLowerCase().includes(keyword);
   return (
     <div className="container-fluid">
       <div className="row">
@@ -79,6 +120,23 @@ const CreateSub = () => {
           />
           <LocalSearch keyword={keyword} setKeyword={setKeyword} />
           <hr />
+
+          {subs.filter(searched(keyword)).map((s) => (
+            <div className="alert alert-secondary" key={s._id}>
+              {s.name}
+              <span
+                onClick={() => handleRemove(s.slug)}
+                className="btn btn-sm float-right"
+              >
+                <DeleteOutlined className="text-danger" />
+              </span>{" "}
+              <Link to={`/admin/category/${s.slug}`}>
+                <span className="btn btn-sm float-right">
+                  <EditOutlined className="text-warning" />
+                </span>{" "}
+              </Link>
+            </div>
+          ))}
         </div>
       </div>
     </div>
