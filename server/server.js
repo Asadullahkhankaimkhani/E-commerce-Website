@@ -17,11 +17,11 @@ const dbConnect = async () => {
 
     console.log("## DATABASE CONNECTED ##");
   } catch (error) {
-    console.log("DB Connectio Err", error);
+    console.log("DB Connection Err", error);
   }
 };
 dbConnect();
-// Middlewares
+// Middleware 
 app.use(morgan("dev"));
 app.use(express.json());
 app.use(cors());
