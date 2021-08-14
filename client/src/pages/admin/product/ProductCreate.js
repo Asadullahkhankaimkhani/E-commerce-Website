@@ -70,7 +70,6 @@ const ProductCreate = () => {
         <div className="col-md-10">
           <h4>Product Create</h4>
           <hr />
-          {JSON.stringify(values.categories)}
           <ProductCreateForm handleChange={handleChange} handleSubmit={handleSubmit} values = {values} />
         </div>
       </div>
