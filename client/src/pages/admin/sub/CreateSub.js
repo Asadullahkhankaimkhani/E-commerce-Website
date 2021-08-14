@@ -105,8 +105,7 @@ const CreateSub = () => {
                 ))}
             </select>
           </div>
-          {JSON.stringify(category)}
-
+      
           <CategoryForms
             name={name}
             setName={setName}

@@ -5,12 +5,13 @@ import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
 import { createProduct } from "../../../functions/product";
 import ProductCreateForm from "../../../components/forms/ProductCreateForm";
+import {getCategories} from '../../../functions/category'
 
 const initialState = {
   title: "",
   description: "",
   price: "",
-  catagories: [],
+  categories: [],
   category: "",
   subs: [],
   shipping: "",
@@ -22,26 +23,25 @@ const initialState = {
   brand: "",
 };
 
+
 const ProductCreate = () => {
   const [values, setValues] = useState(initialState);
   const {user} = useSelector((state)=>({...state}))
 
-  const {
-    title,
-    description,
-    price,
-    catagories,
-    category,
-    subs,
-    shipping,
-    quantity,
-    images,
-    colors,
-    brands,
-    color,
-    brand,
-  } = values;
 
+
+  useEffect(() => {
+    loadcategories();
+  }, []);
+  
+  const loadcategories = async () => {
+    try {
+      const res = await getCategories();
+      setValues({ ...values,categories:res.data});
+    } catch (error) {
+      if (error.response.status === 400) toast.error(error.response.data);
+    }
+  };
   const handleChange = (e) => {
     setValues({...values,[e.target.name]:e.target.value})
   };
@@ -70,6 +70,7 @@ const ProductCreate = () => {
         <div className="col-md-10">
           <h4>Product Create</h4>
           <hr />
+          {JSON.stringify(values.categories)}
           <ProductCreateForm handleChange={handleChange} handleSubmit={handleSubmit} values = {values} />
         </div>
       </div>

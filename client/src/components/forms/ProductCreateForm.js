@@ -5,7 +5,7 @@ const ProductCreateForm = ({handleChange ,handleSubmit ,values}) => {
     title,
     description,
     price,
-    catagories,
+    categories,
     category,
     subs,
     shipping,
@@ -95,6 +95,23 @@ const ProductCreateForm = ({handleChange ,handleSubmit ,values}) => {
           ))}
         </select>
       </div>
+      <div className="form-group">
+      <label > Category</label>
+      <select
+        name="category"
+        className="custom-select"
+        onChange={handleChange}
+      >
+        <option>Please Select a Category</option>
+        {categories.length > 0 &&
+          categories.map((c) => (
+            <option key={c._id} value={c._id}>
+              {c.name}
+            </option>
+          ))}
+      </select>
+    </div>
+
       <button className="btn btn-outline-info">Save</button>
     </form>
   </div>
