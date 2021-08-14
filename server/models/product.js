@@ -8,6 +8,7 @@ const productSchema = new mongoose.Schema(
       required: true,
       maxLength: 32,
       text: true,
+      unique:true
     },
     slug: {
       type: String,
@@ -28,24 +29,24 @@ const productSchema = new mongoose.Schema(
       maxLength: 32,
       text: true,
     },
-    category: {
-      type: ObjectId,
-      ref: "Category",
-    },
-    subs: [
-      {
-        type: ObjectId,
-        ref: "Sub",
-      },
-    ],
+    // category: {
+    //   type: ObjectId,
+    //   ref: "Category",
+    // },
+    // subs: [
+    //   {
+    //     type: ObjectId,
+    //     ref: "Sub",
+    //   },
+    // ],
     quantity: Number,
     sold: {
       type: Number,
       default: 0,
     },
-    images: {
-      type: Array,
-    },
+    // images: {
+    //   type: Array,
+    // },
     shipping: {
       type: String,
       enum: ["Yes", "No"],

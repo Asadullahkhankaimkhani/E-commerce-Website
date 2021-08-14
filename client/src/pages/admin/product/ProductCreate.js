@@ -24,6 +24,7 @@ const initialState = {
 
 const ProductCreate = () => {
   const [values, setValues] = useState(initialState);
+  const {user} = useSelector((state)=>({...state}))
 
   const {
     title,
@@ -41,12 +42,22 @@ const ProductCreate = () => {
     brand,
   } = values;
 
-  const handleChange = () => {
-    //
+  const handleChange = (e) => {
+    setValues({...values,[e.target.name]:e.target.value})
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    createProduct(values, user.token)
+      .then((res) => {
+        console.log(res);
+        window.alert(`"${res.data.title}" is created`);
+        window.location.reload();
+      })
+      .catch((err) => {
+        console.log(err);
+        if (err.response.status !== 200) toast.error(err.response.data);
+      });
   };
 
   return (
@@ -95,6 +106,7 @@ const ProductCreate = () => {
                 name="shipping"
                 className="form-control"
                 onChange={handleChange}
+      
               >
               <option>Please Select</option>
                 <option value="No">No</option>
@@ -107,7 +119,7 @@ const ProductCreate = () => {
                 type="number"
                 name="quantity"
                 className="form-control"
-                value={price}
+                value={quantity}
                 onChange={handleChange}
               />
             </div>
@@ -120,7 +132,7 @@ const ProductCreate = () => {
               >
                 <option>Please Select</option>
                 {colors.map((c) => (
-                  <option key={c.index} values={c}>
+                  <option key={c} values={c}>
                     {c}
                   </option>
                 ))}
