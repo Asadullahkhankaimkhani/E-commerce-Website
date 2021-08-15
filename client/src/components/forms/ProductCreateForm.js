@@ -5,6 +5,8 @@ const ProductCreateForm = ({
   handleSubmit,
   values,
   handleCategoriesChange,
+  subOptions,
+  showSubs,
 }) => {
   const {
     title,
@@ -124,6 +126,7 @@ const ProductCreateForm = ({
                 ))}
             </select>
           </div>
+          {subOptions.length}
 
           <button className="btn btn-outline-info">Save</button>
         </form>

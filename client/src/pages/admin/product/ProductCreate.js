@@ -26,6 +26,7 @@ const initialState = {
 const ProductCreate = () => {
   const [values, setValues] = useState(initialState);
   const [subOptions, setSubOption] = useState([]);
+  const [showSubs, setShowSubs] = useState(false);
   // redux
   const { user } = useSelector((state) => ({ ...state }));
 
@@ -82,6 +83,7 @@ const ProductCreate = () => {
             values={values}
             handleCategoriesChange={handleCategoriesChange}
             subOptions={subOptions}
+            showSubs={showSubs}
           />
         </div>
       </div>
