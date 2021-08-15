@@ -130,19 +130,27 @@ const ProductCreateForm = ({
                 ))}
             </select>
           </div>
-          <>
-            <label>Sub Categories</label>
-            <Select
-              mode="multiple"
-              style={{ width: "100%" }}
-              placeholder="Please Select"
-              value={subs}
-              onChange={(value) => setValues({ ...values, subs: value })}
-            >
-              <Option value="one">option one</Option>
-              <Option value="two">option two</Option>
-            </Select>
-          </>
+          {showSubs && (
+            <div>
+              <label>Sub Categories</label>
+              <Select
+                mode="multiple"
+                style={{ width: "100%" }}
+                placeholder="Please Select"
+                value={subs}
+                onChange={(value) => setValues({ ...values, subs: value })}
+              >
+                {subOptions.length &&
+                  subOptions.map((s) => (
+                    <Option key={s._id} value={s._id}>
+                      {s.name}
+                    </Option>
+                  ))}
+              </Select>
+            </div>
+          )}
+          <br />
+          <br />
           <button className="btn btn-outline-info">Save</button>
         </form>
       </div>

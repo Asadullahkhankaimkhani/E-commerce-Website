@@ -47,10 +47,11 @@ const ProductCreate = () => {
   };
   const handleCategoriesChange = async (e) => {
     e.preventDefault();
-    setValues({ ...values, category: e.target.value });
+    setValues({ ...values, subs: [], category: e.target.value });
     const res = await getCategorySubs(e.target.value);
     console.log(res);
     setSubOption(res.data);
+    setShowSubs(true);
   };
 
   const handleSubmit = (e) => {
