@@ -1,5 +1,5 @@
 const Category = require("../models/category");
-const Sub  = require("../models/sub")
+const Sub = require("../models/sub");
 const slugify = require("slugify");
 
 exports.create = async (req, res) => {
@@ -45,11 +45,15 @@ exports.remove = async (req, res) => {
   }
 };
 
-exports.getSubs = async (req,res)=> {
-  try {
-    const res = await Sub.find({parent:req.params._id}).exec();
-    res.json(res);
-  } catch (error) {
-      res.status.json(error)
-  }
-}
+exports.getSubs = (req, res) => {
+  // try {
+  //   const res = await Sub.find({ parent: req.params._id }).exec();
+  //   res.json(res);
+  // } catch (error) {
+  //   res.status(400).json(error);
+  // }
+  Sub.find({ parent: req.params._id }).exec((err, subs) => {
+    if (err) console.log(err);
+    res.json(subs);
+  });
+};

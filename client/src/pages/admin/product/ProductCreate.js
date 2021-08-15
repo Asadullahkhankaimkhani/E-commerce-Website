@@ -5,7 +5,7 @@ import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
 import { createProduct } from "../../../functions/product";
 import ProductCreateForm from "../../../components/forms/ProductCreateForm";
-import {getCategories} from '../../../functions/category'
+import { getCategories, getCategorySubs } from "../../../functions/category";
 
 const initialState = {
   title: "",
@@ -18,32 +18,38 @@ const initialState = {
   quantity: "",
   images: [],
   colors: ["Black", "Brown", "Silver", "White", "Blue"],
-  brands: ["Apple", "Samsung", "Microsoft", "Lenavo", "Asus"],
+  brands: ["Apple", "Samsung", "Microsoft", "Lenovo", "Asur"],
   color: "",
   brand: "",
 };
 
-
 const ProductCreate = () => {
   const [values, setValues] = useState(initialState);
-  const {user} = useSelector((state)=>({...state}))
-
-
+  const [subOptions, setSubOption] = useState([]);
+  // redux
+  const { user } = useSelector((state) => ({ ...state }));
 
   useEffect(() => {
     loadcategories();
   }, []);
-  
+
   const loadcategories = async () => {
     try {
       const res = await getCategories();
-      setValues({ ...values,categories:res.data});
+      setValues({ ...values, categories: res.data });
     } catch (error) {
       if (error.response.status === 400) toast.error(error.response.data);
     }
   };
   const handleChange = (e) => {
-    setValues({...values,[e.target.name]:e.target.value})
+    setValues({ ...values, [e.target.name]: e.target.value });
+  };
+  const handleCategoriesChange = async (e) => {
+    e.preventDefault();
+    setValues({ ...values, category: e.target.value });
+    const res = await getCategorySubs(e.target.value);
+    console.log(res);
+    setSubOption(res.data);
   };
 
   const handleSubmit = (e) => {
@@ -57,7 +63,7 @@ const ProductCreate = () => {
       .catch((err) => {
         console.log(err);
         // if (err.response.status !== 200) toast.error(err.response.data);
-        toast.error(err.response.data.err)
+        toast.error(err.response.data.err);
       });
   };
 
@@ -70,7 +76,13 @@ const ProductCreate = () => {
         <div className="col-md-10">
           <h4>Product Create</h4>
           <hr />
-          <ProductCreateForm handleChange={handleChange} handleSubmit={handleSubmit} values = {values} />
+          <ProductCreateForm
+            handleChange={handleChange}
+            handleSubmit={handleSubmit}
+            values={values}
+            handleCategoriesChange={handleCategoriesChange}
+            subOptions={subOptions}
+          />
         </div>
       </div>
     </div>
