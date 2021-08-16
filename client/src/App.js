@@ -29,7 +29,6 @@ import { useDispatch } from "react-redux";
 
 // Functions
 import { currentUser } from "./functions/auth";
-import { updateSub } from "./functions/sub";
 
 const App = () => {
   const dispatch = useDispatch();

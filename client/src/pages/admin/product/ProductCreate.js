@@ -5,6 +5,8 @@ import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
 import { createProduct } from "../../../functions/product";
 import ProductCreateForm from "../../../components/forms/ProductCreateForm";
+import FileUpload from "../../../components/forms/FileUpload";
+
 import { getCategories, getCategorySubs } from "../../../functions/category";
 
 const initialState = {
@@ -56,6 +58,7 @@ const ProductCreate = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    createProduct(values, user.token);
     createProduct(values, user.token)
       .then((res) => {
         console.log(res);
@@ -78,6 +81,10 @@ const ProductCreate = () => {
         <div className="col-md-10">
           <h4>Product Create</h4>
           <hr />
+          <div className="p-3">
+            <FileUpload />
+          </div>
+
           <ProductCreateForm
             handleChange={handleChange}
             handleSubmit={handleSubmit}
@@ -87,7 +94,6 @@ const ProductCreate = () => {
             subOptions={subOptions}
             showSubs={showSubs}
           />
-         
         </div>
       </div>
     </div>
