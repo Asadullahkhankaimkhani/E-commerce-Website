@@ -108,7 +108,7 @@ const ProductCreateForm = ({
             >
               <option>Please Select</option>
               {brands.map((c) => (
-                <option key={c.index} values={c}>
+                <option key={c} values={c}>
                   {c}
                 </option>
               ))}

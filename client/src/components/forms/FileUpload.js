@@ -7,6 +7,7 @@ const FileUpload = ({ values, setValues, setLoading }) => {
 
   const fileUploadAndResize = (e) => {
     console.log(e.target.files);
+    // console.log(user);
     let files = e.target.files;
     let allUploadedFile = values.images;
 
@@ -23,14 +24,19 @@ const FileUpload = ({ values, setValues, setLoading }) => {
           (url) => {
             // console.log(url);
             axios
-              .post(`${process.env.REACT_APP_API}/uploadimages`, {
-                image: url,
-                headers: {
-                  authtoken: user ? user.token : "",
+              .post(
+                `${process.env.REACT_APP_API}/uploadimages`,
+                {
+                  image: url,
                 },
-              })
+                {
+                  headers: {
+                    authtoken: user.token,
+                  },
+                }
+              )
               .then((res) => {
-                console.setLoading("Image Upload adata ", res);
+                console.log("Image Upload data ", res);
                 setLoading(false);
                 allUploadedFile.push(res.data);
                 setValues({ ...values, images: allUploadedFile });
