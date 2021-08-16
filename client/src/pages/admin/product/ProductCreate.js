@@ -3,6 +3,8 @@ import AdminNav from "../../../components/nav/AdminNav";
 
 import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
+import { LoadingOutlined } from "@ant-design/icons";
+
 import { createProduct } from "../../../functions/product";
 import ProductCreateForm from "../../../components/forms/ProductCreateForm";
 import FileUpload from "../../../components/forms/FileUpload";
@@ -80,7 +82,7 @@ const ProductCreate = () => {
           <AdminNav />
         </div>
         <div className="col-md-10">
-          <h4>Product Create</h4>
+          {loading ? <LoadingOutlined spin /> : <h4>Product Create</h4>}
           <hr />
           {JSON.stringify(values.images)}
           <div className="p-3">
