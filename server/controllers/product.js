@@ -8,14 +8,24 @@ exports.create = async (req, res) => {
     const newProduct = await new Product(req.body).save();
     res.json(newProduct);
   } catch (err) {
-  //  res.status(400).send("Create Product Failed");
+    //  res.status(400).send("Create Product Failed");
     res.status(400).json({
-      err: err.message
-    })
+      err: err.message,
+    });
   }
 };
 
-exports.read = async (req,res)=> {
+exports.read = async (req, res) => {
   let products = await Product.find({});
   res.json(products);
-}
+};
+
+exports.listAll = async (req, res) => {
+  let products = await Product.find({})
+    .limit(parseInt(req.params.count))
+    .populate("category")
+    .populate("subs")
+    .sort([["createdAt", "desc"]])
+    .exec();
+  res.json(products);
+};
