@@ -1,5 +1,7 @@
 import React from "react";
 import { Card } from "antd";
+import laptop from "../../images/laptop.jpg";
+import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 
 const AdminProductCard = ({ product }) => {
   const { Meta } = Card;
@@ -11,13 +13,20 @@ const AdminProductCard = ({ product }) => {
       cover={
         <img
           alt=""
-          src={images && images.length > 0 ? images[0].url : "No Image Found"}
+          src={images && images.length ? images[0].url : laptop}
           style={{ height: "150px", objectFit: "cover" }}
           className="p-1"
         />
       }
+      actions={[
+        <EditOutlined className="text-warning" />,
+        <DeleteOutlined className="text-danger" />,
+      ]}
     >
-      <Meta title={title} description={description} />
+      <Meta
+        title={title}
+        description={`${description && description.substring(0, 40)}...`}
+      />
     </Card>
   );
 };

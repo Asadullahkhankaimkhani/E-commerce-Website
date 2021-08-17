@@ -24,26 +24,24 @@ const AllProduct = () => {
   }, []);
 
   return (
-    <>
-      <div className="container-fluid">
-        <div className="row">
-          <div className="col-md-2">
-            <AdminNav />
-          </div>
+    <div className="container-fluid">
+      <div className="row">
+        <div className="col-md-2">
+          <AdminNav />
+        </div>
 
-          <div className="col">
-            {loading ? <LoadingOutlined /> : <h4>Products</h4>}
-            <div className="row">
-              {products.map((product) => (
-                <div key={product._id} className="col-md-=4">
-                  <AdminProductCard product={product} />
-                </div>
-              ))}
-            </div>
+        <div className="col">
+          {loading ? <LoadingOutlined /> : <h4>Products</h4>}
+          <div className="row">
+            {products.map((product) => (
+              <div key={product._id} className="col-md-4 pb-4">
+                <AdminProductCard product={product} />
+              </div>
+            ))}
           </div>
         </div>
-      </div>{" "}
-    </>
+      </div>
+    </div>
   );
 };
 
