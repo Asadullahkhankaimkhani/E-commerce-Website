@@ -105,7 +105,7 @@ const CreateSub = () => {
                 ))}
             </select>
           </div>
-      
+
           <CategoryForms
             name={name}
             setName={setName}

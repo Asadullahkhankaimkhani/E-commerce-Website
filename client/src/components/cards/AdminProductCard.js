@@ -3,10 +3,10 @@ import { Card } from "antd";
 import laptop from "../../images/laptop.jpg";
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 
-const AdminProductCard = ({ product }) => {
+const AdminProductCard = ({ product, handleRemove }) => {
   const { Meta } = Card;
 
-  const { title, description, images } = product;
+  const { title, description, images, slug } = product;
   console.log(images);
   return (
     <Card
@@ -20,7 +20,10 @@ const AdminProductCard = ({ product }) => {
       }
       actions={[
         <EditOutlined className="text-warning" />,
-        <DeleteOutlined className="text-danger" />,
+        <DeleteOutlined
+          className="text-danger"
+          onClick={() => handleRemove(slug)}
+        />,
       ]}
     >
       <Meta
