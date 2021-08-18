@@ -49,7 +49,7 @@ const AllProduct = () => {
         </div>
 
         <div className="col">
-          {loading ? <LoadingOutlined /> : <h4>Products</h4>}
+          {loading ? <LoadingOutlined /> : <h4>Product</h4>}
           <div className="row">
             {products.map((product) => (
               <div key={product._id} className="col-md-4 pb-4">

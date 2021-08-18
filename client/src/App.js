@@ -19,6 +19,7 @@ import CreateSub from "./pages/admin/sub/CreateSub";
 import UpdateSub from "./pages/admin/sub/UpdateSub";
 import ProductCreate from "./pages/admin/product/ProductCreate";
 import AllProduct from "./pages/admin/product/AllProduct";
+import ProductUpdate from "./pages/admin/product/ProductUpdate";
 // Componnets
 import Header from "./components/nav/Header";
 import UserRoute from "./components/routes/UserRoute";
@@ -98,6 +99,11 @@ const App = () => {
         ></AdminRoute>
         <AdminRoute exact path="/admin/product" component={ProductCreate} />
         <AdminRoute exact path="/admin/products" component={AllProduct} />
+        <AdminRoute
+          exact
+          path="/admin/product/:slug"
+          component={ProductUpdate}
+        />
       </Switch>
     </Fragment>
   );
