@@ -15,10 +15,10 @@ exports.create = async (req, res) => {
   }
 };
 
-exports.read = async (req, res) => {
-  let products = await Product.find({});
-  res.json(products);
-};
+// exports.read = async (req, res) => {
+//   let products = await Product.find({});
+//   res.json(products);
+// };
 
 exports.listAll = async (req, res) => {
   let products = await Product.find({})
@@ -39,4 +39,12 @@ exports.remove = async (req, res) => {
   } catch (error) {
     return res.status(400).send("Product Deleted Failed");
   }
+};
+
+exports.read = async (req, res) => {
+  let product = await Product.find({ slug: req.params.slug })
+    .populate("category")
+    .populate("subs")
+    .exec();
+  res.json(product);
 };
