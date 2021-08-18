@@ -1,15 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import AdminNav from "../../../components/nav/AdminNav";
-
 import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
-// import { LoadingOutlined } from "@ant-design/icons";
-
 import { getProduct } from "../../../functions/product";
-// import ProductCreateForm from "../../../components/forms/ProductCreateForm";
-// import FileUpload from "../../../components/forms/FileUpload";
+import { getCategories, getCategorySubs } from "../../../functions/category";
+import FileUpload from "../../../components/forms/FileUpload";
+import { LoadingOutlined } from "@ant-design/icons";
+import ProductUpdateForm from "../../../components/forms/ProductUpdateForm";
 
-// import { getCategories, getCategorySubs } from "../../../functions/category";
 const initialState = {
   title: "",
   description: "",
@@ -21,30 +19,39 @@ const initialState = {
   quantity: "",
   images: [],
   colors: ["Black", "Brown", "Silver", "White", "Blue"],
-  brands: ["Apple", "Samsung", "Microsoft", "Lenovo", "Asur"],
+  brands: ["Apple", "Samsung", "Microsoft", "Lenovo", "ASUS"],
   color: "",
   brand: "",
 };
 
 const ProductUpdate = ({ match }) => {
-  // redux
-  const { user } = useSelector((state) => ({ ...state }));
-
+  // state
   const [values, setValues] = useState(initialState);
-  const { slug } = match.params;
 
-  const loadProduct = async () => {
-    try {
-      const res = await getProduct(slug);
-      setValues({ ...values, ...res.data });
-    } catch (error) {
-      if (error.response.status === 400) toast.error(error.response.data);
-    }
-  };
+  const { user } = useSelector((state) => ({ ...state }));
+  // router
+  const { slug } = match.params;
 
   useEffect(() => {
     loadProduct();
   }, []);
+
+  const loadProduct = () => {
+    getProduct(slug).then((p) => {
+      // console.log("single product", p);
+      setValues({ ...values, ...p.data });
+    });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    //
+  };
+
+  const handleChange = (e) => {
+    setValues({ ...values, [e.target.name]: e.target.value });
+    // console.log(e.target.name, " ----- ", e.target.value);
+  };
 
   return (
     <div className="container-fluid">
@@ -52,10 +59,18 @@ const ProductUpdate = ({ match }) => {
         <div className="col-md-2">
           <AdminNav />
         </div>
+
         <div className="col-md-10">
-          <h4>Product Update</h4>
+          <h4>Product update</h4>
+          {/* {JSON.stringify(values)} */}
+
+          <ProductUpdateForm
+            handleSubmit={handleSubmit}
+            handleChange={handleChange}
+            setValues={setValues}
+            values={values}
+          />
           <hr />
-          {JSON.stringify(values)}
         </div>
       </div>
     </div>
@@ -63,3 +78,4 @@ const ProductUpdate = ({ match }) => {
 };
 
 export default ProductUpdate;
+
