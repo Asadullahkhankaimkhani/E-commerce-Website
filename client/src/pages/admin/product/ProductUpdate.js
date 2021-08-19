@@ -50,7 +50,7 @@ const ProductUpdate = ({ match }) => {
 
   const handleChange = (e) => {
     setValues({ ...values, [e.target.name]: e.target.value });
-    // console.log(e.target.name, " ----- ", e.target.value);
+    console.log(e.target.name, " ----- ", e.target.value);
   };
 
   return (
@@ -62,7 +62,6 @@ const ProductUpdate = ({ match }) => {
 
         <div className="col-md-10">
           <h4>Product update</h4>
-          {/* {JSON.stringify(values)} */}
 
           <ProductUpdateForm
             handleSubmit={handleSubmit}
@@ -78,4 +77,3 @@ const ProductUpdate = ({ match }) => {
 };
 
 export default ProductUpdate;
-

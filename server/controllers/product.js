@@ -42,7 +42,7 @@ exports.remove = async (req, res) => {
 };
 
 exports.read = async (req, res) => {
-  let product = await Product.find({ slug: req.params.slug })
+  let product = await Product.findOne({ slug: req.params.slug })
     .populate("category")
     .populate("subs")
     .exec();
