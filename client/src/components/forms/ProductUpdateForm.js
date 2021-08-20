@@ -8,9 +8,11 @@ const ProductUpdateForm = ({
   handleChange,
   setValues,
   values,
-  handleCategoriesChange,
+  handleCatagoryChange,
   categories,
   subOptions,
+  arrayOfSubs,
+  setArrayOfSubs,
 }) => {
   // destructure
   const {
@@ -71,7 +73,6 @@ const ProductUpdateForm = ({
           className="form-control"
           onChange={handleChange}
         >
-          <option>Please select</option>
           <option value="No">No</option>
           <option value="Yes">Yes</option>
         </select>
@@ -119,14 +120,15 @@ const ProductUpdateForm = ({
           ))}
         </select>
       </div>
+
       <div className="form-group">
-        <label> Category</label>
+        <label>Category</label>
         <select
           name="category"
-          className="custom-select"
-          onChange={handleCategoriesChange}
+          className="form-control"
+          onChange={handleCatagoryChange}
         >
-          <option>{category ? category.name : "Please Select Category"}</option>
+          <option>{category ? category.name : "Please select"}</option>
           {categories.length > 0 &&
             categories.map((c) => (
               <option key={c._id} value={c._id}>
@@ -134,6 +136,24 @@ const ProductUpdateForm = ({
               </option>
             ))}
         </select>
+      </div>
+
+      <div>
+        <label>Sub Categories</label>
+        <Select
+          mode="multiple"
+          style={{ width: "100%" }}
+          placeholder="Please select"
+          value={arrayOfSubs}
+          onChange={(value) => setArrayOfSubs(value)}
+        >
+          {subOptions.length &&
+            subOptions.map((s) => (
+              <Option key={s._id} value={s._id}>
+                {s.name}
+              </Option>
+            ))}
+        </Select>
       </div>
 
       <br />

@@ -11,7 +11,6 @@ import ProductUpdateForm from "../../../components/forms/ProductUpdateForm";
 const initialState = {
   title: "",
   description: "",
-  description: "",
   price: "",
   category: "",
   subs: [],
@@ -27,8 +26,10 @@ const initialState = {
 const ProductUpdate = ({ match }) => {
   // state
   const [values, setValues] = useState(initialState);
-  const [subOptions, setSubOption] = useState([]);
   const [categories, setCategories] = useState([]);
+  const [subOptions, setSubOptions] = useState([]);
+  const [arrayOfSubs, setArrayOfSubs] = useState([]);
+
   const { user } = useSelector((state) => ({ ...state }));
   // router
   const { slug } = match.params;
@@ -41,19 +42,27 @@ const ProductUpdate = ({ match }) => {
   const loadProduct = () => {
     getProduct(slug).then((p) => {
       // console.log("single product", p);
+      // 1 load single proudct
       setValues({ ...values, ...p.data });
+      // 2 load single product category subs
+      getCategorySubs(p.data.category._id).then((res) => {
+        setSubOptions(res.data); // on first load, show default subs
+      });
+      // 3 prepare array of sub ids to show as default sub values in antd Select
+      let arr = [];
+      p.data.subs.map((s) => {
+        arr.push(s._id);
+      });
+      console.log("ARR", arr);
+      setArrayOfSubs((prev) => arr); // required for ant design select to work
     });
   };
 
-  const loadCategories = async () => {
-    try {
-      const res = await getCategories();
-
-      setCategories(res.data);
-    } catch (error) {
-      if (error.response.status === 400) toast.error(error.response.data);
-    }
-  };
+  const loadCategories = () =>
+    getCategories().then((c) => {
+      console.log("GET CATEGORIES IN UPDATE PRODUCT", c.data);
+      setCategories(c.data);
+    });
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -62,15 +71,17 @@ const ProductUpdate = ({ match }) => {
 
   const handleChange = (e) => {
     setValues({ ...values, [e.target.name]: e.target.value });
-    console.log(e.target.name, " ----- ", e.target.value);
+    // console.log(e.target.name, " ----- ", e.target.value);
   };
 
-  const handleCategoriesChange = async (e) => {
+  const handleCatagoryChange = (e) => {
     e.preventDefault();
+    console.log("CLICKED CATEGORY", e.target.value);
     setValues({ ...values, subs: [], category: e.target.value });
-    const res = await getCategorySubs(e.target.value);
-    console.log(res);
-    setSubOption(res.data);
+    getCategorySubs(e.target.value).then((res) => {
+      console.log("SUB OPTIONS ON CATGORY CLICK", res);
+      setSubOptions(res.data);
+    });
   };
 
   return (
@@ -82,15 +93,18 @@ const ProductUpdate = ({ match }) => {
 
         <div className="col-md-10">
           <h4>Product update</h4>
+          {JSON.stringify(values)}
 
           <ProductUpdateForm
             handleSubmit={handleSubmit}
             handleChange={handleChange}
             setValues={setValues}
             values={values}
-            handleCategoriesChange={handleCategoriesChange}
+            handleCatagoryChange={handleCatagoryChange}
             categories={categories}
             subOptions={subOptions}
+            arrayOfSubs={arrayOfSubs}
+            setArrayOfSubs={setArrayOfSubs}
           />
           <hr />
         </div>
