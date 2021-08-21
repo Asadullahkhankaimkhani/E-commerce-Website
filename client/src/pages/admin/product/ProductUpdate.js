@@ -29,6 +29,7 @@ const ProductUpdate = ({ match }) => {
   const [categories, setCategories] = useState([]);
   const [subOptions, setSubOptions] = useState([]);
   const [arrayOfSubs, setArrayOfSubs] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState("");
 
   const { user } = useSelector((state) => ({ ...state }));
   // router
@@ -77,7 +78,10 @@ const ProductUpdate = ({ match }) => {
   const handleCatagoryChange = (e) => {
     e.preventDefault();
     console.log("CLICKED CATEGORY", e.target.value);
-    setValues({ ...values, subs: [], category: e.target.value });
+    setValues({ ...values, subs: [] });
+
+    setSelectedCategory(e.target.value);
+
     getCategorySubs(e.target.value).then((res) => {
       console.log("SUB OPTIONS ON CATGORY CLICK", res);
       setSubOptions(res.data);
@@ -86,6 +90,7 @@ const ProductUpdate = ({ match }) => {
     if (values.category._id === e.target.value) {
       loadProduct();
     }
+
     setArrayOfSubs([]);
   };
 
@@ -110,6 +115,7 @@ const ProductUpdate = ({ match }) => {
             subOptions={subOptions}
             arrayOfSubs={arrayOfSubs}
             setArrayOfSubs={setArrayOfSubs}
+            selectedCategory={selectedCategory}
           />
           <hr />
         </div>

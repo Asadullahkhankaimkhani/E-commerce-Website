@@ -61,7 +61,6 @@ const ProductCreate = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    createProduct(values, user.token);
     createProduct(values, user.token)
       .then((res) => {
         console.log(res);
