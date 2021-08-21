@@ -58,10 +58,12 @@ exports.update = async (req, res) => {
       { slug: req.params.slug },
       req.body,
       { new: true }
-    ).exe();
+    ).exec();
     res.json(updated);
   } catch (err) {
     console.log("Product update Error", err);
-    return res.status(400).send("Product Update Failed ");
+    return res.status(400).json({
+      err: err.message,
+    });
   }
 };
