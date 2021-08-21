@@ -82,6 +82,11 @@ const ProductUpdate = ({ match }) => {
       console.log("SUB OPTIONS ON CATGORY CLICK", res);
       setSubOptions(res.data);
     });
+
+    if (values.category._id === e.target.value) {
+      loadProduct();
+    }
+    setArrayOfSubs([]);
   };
 
   return (
