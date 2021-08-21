@@ -83,7 +83,7 @@ const ProductCreate = () => {
         <div className="col-md-10">
           {loading ? <LoadingOutlined spin /> : <h4>Product Create</h4>}
           <hr />
-          {JSON.stringify(values.images)}
+          {/* {JSON.stringify(values.images)} */}
           <div className="p-3">
             <FileUpload
               values={values}
