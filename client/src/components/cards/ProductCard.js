@@ -5,8 +5,7 @@ import laptop from "../../images/laptop.jpg";
 import { Link } from "react-router-dom";
 
 const ProductCard = ({ product }) => {
-  const {Meta} = Card;
-
+  const { Meta } = Card;
 
   const { images, title, description, slug } = product;
 
