@@ -70,7 +70,6 @@ const ProductListItems = ({ product }) => {
           </span>
         </li>
       </ul>
-      {JSON.stringify(product)}
     </>
   );
 };

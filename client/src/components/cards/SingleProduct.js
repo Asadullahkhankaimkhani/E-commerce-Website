@@ -1,5 +1,5 @@
 import React from "react";
-import { Card } from "antd";
+import { Card, Tabs } from "antd";
 import { Link } from "react-router-dom";
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 import { Carousel } from "react-responsive-carousel";
@@ -8,7 +8,8 @@ import { HeartOutlined, ShoppingOutlined } from "@ant-design/icons";
 import ProductListItems from "./ProductListItems";
 
 const SingleProduct = ({ product }) => {
-  const { title, images } = product;
+  const { title, images, description } = product;
+  const { TabPane } = Tabs;
 
   return (
     <>
@@ -25,6 +26,14 @@ const SingleProduct = ({ product }) => {
             cover={<img src={Laptop} alt="No Product" className="card-image" />}
           ></Card>
         )}
+        <Tabs type="card">
+          <TabPane key="1" tab="Description">
+            {description && description}
+          </TabPane>
+          <TabPane key="2" tab="More">
+            Call us on 0333 25906061
+          </TabPane>
+        </Tabs>
       </div>
       <div className="col-md-5">
         <h1 className="bg-info p-3">{title}</h1>
