@@ -1,5 +1,6 @@
 import React from "react";
 import NewArrival from "../components/Home/NewArrival";
+import BestSeller from "../components/Home/BestSeller";
 import Jumbotron from "../components/cards/Jumbotron";
 
 const Home = () => {
@@ -12,6 +13,10 @@ const Home = () => {
         New Arrivals
       </div>
       <NewArrival />
+      <div className="jumbotron text-center p-3 mt-5 display-3">
+        Best Seller
+      </div>
+      <BestSeller />
     </>
   );
 };
