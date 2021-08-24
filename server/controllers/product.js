@@ -67,11 +67,29 @@ exports.update = async (req, res) => {
     });
   }
 };
-
+// Without Pagination
+// exports.list = async (req, res) => {
+//   try {
+//     const { sort, order, limit } = req.body;
+//     const products = await Product.find({})
+//       .populate("category")
+//       .populate("subs")
+//       .sort([[sort, order]])
+//       .limit(limit)
+//       .exec();
+//     res.json(products);
+//   } catch (err) {
+//     console.log(err);
+//   }
+// };
+// With Pagenation
 exports.list = async (req, res) => {
   try {
-    const { sort, order, limit } = req.body;
+    const { sort, order, page } = req.body;
+    const currentPage = page || 1;
+    const perPage = 3;
     const products = await Product.find({})
+      .skip((currentPage - 1) * perPage)
       .populate("category")
       .populate("subs")
       .sort([[sort, order]])
@@ -82,7 +100,6 @@ exports.list = async (req, res) => {
     console.log(err);
   }
 };
-
 exports.productCount = async (req, res) => {
   let total = await Product.find({}).estimatedDocumentCount().exec();
   res.json(total);
