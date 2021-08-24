@@ -20,6 +20,7 @@ import UpdateSub from "./pages/admin/sub/UpdateSub";
 import ProductCreate from "./pages/admin/product/ProductCreate";
 import AllProduct from "./pages/admin/product/AllProduct";
 import ProductUpdate from "./pages/admin/product/ProductUpdate";
+import Product from "./pages/Product";
 // Componnets
 import Header from "./components/nav/Header";
 import UserRoute from "./components/routes/UserRoute";
@@ -76,6 +77,7 @@ const App = () => {
         <UserRoute exact path="/user/history" component={History}></UserRoute>
         <UserRoute exact path="/user/password" component={Password}></UserRoute>
         <UserRoute exact path="/user/wishlist" component={Wishlist}></UserRoute>
+        <Route exact path="/product/:slug" component={Product} />
         <AdminRoute
           exact
           path="/admin/dashboard"
