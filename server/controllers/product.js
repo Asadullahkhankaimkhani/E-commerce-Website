@@ -93,7 +93,7 @@ exports.list = async (req, res) => {
       .populate("category")
       .populate("subs")
       .sort([[sort, order]])
-      .limit(limit)
+      .limit(perPage)
       .exec();
     res.json(products);
   } catch (err) {
