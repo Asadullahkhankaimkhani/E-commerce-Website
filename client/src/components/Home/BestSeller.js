@@ -12,7 +12,7 @@ const BestSeller = () => {
 
   useEffect(() => {
     loadingProduct();
-  }, []);
+  }, [page]);
 
   useEffect(() => {
     getProductsCount().then(({ data }) => {
