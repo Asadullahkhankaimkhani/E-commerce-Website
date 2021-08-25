@@ -3,12 +3,22 @@ import { Modal, Button } from "antd";
 import { toast } from "react-toastify";
 import { useSelector, useSeletor } from "react-redux";
 import { StarOutlined } from "@ant-design/icons";
+import { useHistory } from "react-router";
 const RatingModal = ({ children }) => {
   const { user } = useSelector((state) => ({ ...state }));
   const [modelVisible, setModalVisiable] = useState(false);
+  const history = useHistory();
+  const handleModal = () => {
+    if (user && user.token) {
+      setModalVisiable(true);
+    } else {
+      history.push("/login");
+    }
+  };
+
   return (
     <>
-      <div onClick={() => setModalVisiable(true)}>
+      <div onClick={() => handleModal()}>
         <StarOutlined className="text-danger" />
         <br />
         {user ? "Leave Rating" : "Login to leave rating"}
