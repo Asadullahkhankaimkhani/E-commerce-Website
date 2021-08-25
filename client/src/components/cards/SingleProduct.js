@@ -9,7 +9,7 @@ import ProductListItems from "./ProductListItems";
 import StarRating from "react-star-ratings";
 import RatingModal from "../modal/RatingModal";
 
-const SingleProduct = ({ product }) => {
+const SingleProduct = ({ product, onStarClick, star }) => {
   const { title, images, description, _id } = product;
   const { TabPane } = Tabs;
 
@@ -50,14 +50,12 @@ const SingleProduct = ({ product }) => {
             </Link>,
             <RatingModal>
               <StarRating
-                rating={2}
-                starRatedColor="red"
-                changeRating={(newRating, name) =>
-                  console.log(newRating, "newRating", "name", name)
-                }
-                isSelectable={true}
-                numberOfStars={5}
                 name={_id}
+                numberOfStars={5}
+                rating={star}
+                changeRating={onStarClick}
+                isSelectable={true}
+                starRatedColor="red"
               />
             </RatingModal>,
           ]}
