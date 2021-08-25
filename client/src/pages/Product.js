@@ -16,13 +16,13 @@ const Product = ({ match }) => {
 
   const onStarClick = async (newRating, name) => {
     setStar(newRating);
-    //console.table(newRating, name);
-    const { data } = await productStar(name, newRating, user.token);
+    const { data } = await productStar(name, star, user.token);
     console.log("Rating Clicked", data);
   };
 
   const loadingSingleProduct = async () => {
     const { data } = await getProduct(slug);
+
     setProduct(data);
   };
   return (

@@ -5,29 +5,28 @@ const productSchema = new mongoose.Schema(
   {
     title: {
       type: String,
+      trim: true,
       required: true,
-      maxLength: 32,
+      maxlength: 32,
       text: true,
-      unique: true,
     },
     slug: {
       type: String,
       unique: true,
       lowercase: true,
-      maxLength: 32,
-      text: true,
+      index: true,
     },
     description: {
       type: String,
       required: true,
-      maxLength: 2000,
+      maxlength: 2000,
       text: true,
     },
     price: {
       type: Number,
       required: true,
-      maxLength: 32,
-      text: true,
+      trim: true,
+      maxlength: 32,
     },
     category: {
       type: ObjectId,
@@ -51,19 +50,22 @@ const productSchema = new mongoose.Schema(
       type: String,
       enum: ["Yes", "No"],
     },
-
     color: {
       type: String,
       enum: ["Black", "Brown", "Silver", "White", "Blue"],
     },
     brand: {
       type: String,
-      enum: ["Apple", "Samsung", "Microsoft", "Lenavo", "Asus"],
+      enum: ["Apple", "Samsung", "Microsoft", "Lenovo", "ASUS"],
     },
-    ratings: [{ star: Number, posted: { type: ObjectId, ref: "User" } }],
+    ratings: [
+      {
+        star: Number,
+        postedBy: { type: ObjectId, ref: "User" },
+      },
+    ],
   },
-  {
-    timestamps: true,
-  }
+  { timestamps: true }
 );
+
 module.exports = mongoose.model("Product", productSchema);
