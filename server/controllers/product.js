@@ -1,4 +1,5 @@
 const Product = require("../models/product");
+const User = require("../models/users");
 const slugify = require("slugify");
 
 exports.create = async (req, res) => {
@@ -103,4 +104,38 @@ exports.list = async (req, res) => {
 exports.productCount = async (req, res) => {
   let total = await Product.find({}).estimatedDocumentCount().exec();
   res.json(total);
+};
+
+exports.productStar = async (req, res) => {
+  const product = await Product.findById(req.params.productId).exec();
+  const user = await User.findOne({ email: req.user.email }).exec();
+  const { star } = req.body;
+  // who is update
+  // check if current user already added rating to product
+  let existingRatingObject = product.ratings.find(
+    (ele) => ele.postedBy.toString() === user._id.toString()
+  );
+  // if user haven't left rating yet, push it
+  if (existingRatingObject === undefined) {
+    let ratingAdded = await Product.findByIdAndUpdate(
+      product._id,
+      {
+        $push: { ratings: { star, postedBy: user._id } },
+      },
+      { new: true }
+    ).exec();
+    console.log("rating", ratingAdded);
+    res.json(ratingAdded);
+  } else {
+    // if user have already left rating update it
+    const ratingUpdated = await Product.updateOne(
+      {
+        ratings: { $eleMatch: existingRatingObject },
+      },
+      { $set: { "ratings.$.star": star } },
+      { new: true }
+    ).exec();
+    console.log("Rating Updated", ratingUpdated);
+    res.json(ratingUpdated);
+  }
 };
