@@ -7,6 +7,7 @@ import Laptop from "../../images/laptop.jpg";
 import { HeartOutlined, ShoppingOutlined } from "@ant-design/icons";
 import ProductListItems from "./ProductListItems";
 import StarRating from "react-star-ratings";
+import RatingModal from "../modal/RatingModal";
 
 const SingleProduct = ({ product }) => {
   const { title, images, description, _id } = product;
@@ -38,18 +39,7 @@ const SingleProduct = ({ product }) => {
       </div>
       <div className="col-md-5">
         <h1 className="bg-info p-3">{title}</h1>
-        <div>
-          <StarRating
-            rating={2}
-            starRatedColor="red"
-            changeRating={(newRating, name) =>
-              console.log(newRating, "newRating", "name", name)
-            }
-            isSelectable={true}
-            numberOfStars={5}
-            name={_id}
-          />
-        </div>
+        <div></div>
         <Card
           actions={[
             <>
@@ -58,6 +48,18 @@ const SingleProduct = ({ product }) => {
             <Link to="/">
               <HeartOutlined className="text-info" /> <br /> Add to Wishlist
             </Link>,
+            <RatingModal>
+              <StarRating
+                rating={2}
+                starRatedColor="red"
+                changeRating={(newRating, name) =>
+                  console.log(newRating, "newRating", "name", name)
+                }
+                isSelectable={true}
+                numberOfStars={5}
+                name={_id}
+              />
+            </RatingModal>,
           ]}
         >
           <ProductListItems product={product} />
