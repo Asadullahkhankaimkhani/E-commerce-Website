@@ -14,6 +14,7 @@ const {
   list,
   productCount,
   productStar,
+  listRelated,
 } = require("../controllers/product");
 
 // routes
@@ -27,5 +28,8 @@ router.post("/products", list);
 
 // Rating
 router.put("/product/star/:productId", authCheck, productStar);
+
+// related
+router.get("/product/related/:productId", listRelated);
 
 module.exports = router;
