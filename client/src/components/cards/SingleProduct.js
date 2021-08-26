@@ -8,6 +8,7 @@ import { HeartOutlined, ShoppingOutlined } from "@ant-design/icons";
 import ProductListItems from "./ProductListItems";
 import StarRating from "react-star-ratings";
 import RatingModal from "../modal/RatingModal";
+import { showAverage } from "../../functions/rating";
 
 const SingleProduct = ({ product, onStarClick, star }) => {
   const { title, images, description, _id } = product;
@@ -39,7 +40,11 @@ const SingleProduct = ({ product, onStarClick, star }) => {
       </div>
       <div className="col-md-5">
         <h1 className="bg-info p-3">{title}</h1>
-        <div></div>
+        <div>
+          {product && product.ratings && product.ratings.length > 0
+            ? showAverage(product)
+            : "No Rating yet"}
+        </div>
         <Card
           actions={[
             <>

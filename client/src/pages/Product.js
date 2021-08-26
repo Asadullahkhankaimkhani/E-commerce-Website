@@ -19,14 +19,16 @@ const Product = ({ match }) => {
       let existingRatingObject = product.ratings.find(
         (ele) => ele.postedBy.toString() === user._id.toString()
       );
-      existingRatingObject && setStar(existingRatingObject.star);
+      existingRatingObject && setStar(existingRatingObject.star); // current user's star
     }
   });
-
-  const onStarClick = async (newRating, name) => {
+  const onStarClick = (newRating, name) => {
     setStar(newRating);
-    const { data } = await productStar(name, newRating, user.token);
-    console.log("Rating Clicked", data);
+    console.table(newRating, name);
+    productStar(name, newRating, user.token).then((res) => {
+      console.log("rating clicked", res.data);
+      loadingSingleProduct(); // if you want to show updated rating in real time
+    });
   };
 
   const loadingSingleProduct = async () => {
