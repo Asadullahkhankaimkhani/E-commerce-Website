@@ -1,4 +1,4 @@
-import lib, { LoadingOutlined } from "@ant-design/icons";
+import { LoadingOutlined } from "@ant-design/icons";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { getCategories } from "../../functions/category";
@@ -18,7 +18,7 @@ const CategoryList = () => {
     categories.map((c) => (
       <div
         key={c._id}
-        className="col m-2 btn btn-outlined-primary btn-lg btn-block btn-raised"
+        className="col btn btn-outlined-primary btn-lg btn-block btn-raised m-3"
       >
         <Link to={`/category/${c.slug}`}>{c.name}</Link>
       </div>
@@ -27,12 +27,7 @@ const CategoryList = () => {
     <div className="container ">
       <div className="row ">
         {loading ? (
-          <div>
-            <h3>
-              {" "}
-              <LoadingOutlined />
-            </h3>
-          </div>
+          <h4 className="text-center">Loading...</h4>
         ) : (
           showCategories()
         )}
