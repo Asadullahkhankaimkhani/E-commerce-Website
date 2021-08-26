@@ -21,6 +21,7 @@ import ProductCreate from "./pages/admin/product/ProductCreate";
 import AllProduct from "./pages/admin/product/AllProduct";
 import ProductUpdate from "./pages/admin/product/ProductUpdate";
 import Product from "./pages/Product";
+import CategoryHome from "./pages/category/CategoryHome";
 // Componnets
 import Header from "./components/nav/Header";
 import UserRoute from "./components/routes/UserRoute";
@@ -74,6 +75,7 @@ const App = () => {
           component={RegisterComplete}
         ></Route>
         <Route exact path="/forgot/password" component={ForgotPassword}></Route>
+        <Route exact path={`/category/:slug`} component={CategoryHome} />
         <UserRoute exact path="/user/history" component={History}></UserRoute>
         <UserRoute exact path="/user/password" component={Password}></UserRoute>
         <UserRoute exact path="/user/wishlist" component={Wishlist}></UserRoute>
