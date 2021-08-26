@@ -1,6 +1,7 @@
 import React from "react";
 import NewArrival from "../components/Home/NewArrival";
 import BestSeller from "../components/Home/BestSeller";
+import CategoryList from "../components/category/CategoryList";
 import Jumbotron from "../components/cards/Jumbotron";
 
 const Home = () => {
@@ -17,6 +18,8 @@ const Home = () => {
         Best Seller
       </div>
       <BestSeller />
+      <div className="jumbotron text-center p-3 mt-5 display-3">Categories</div>
+      <CategoryList />
     </>
   );
 };
