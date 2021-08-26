@@ -33,6 +33,7 @@ import { useDispatch } from "react-redux";
 
 // Functions
 import { currentUser } from "./functions/auth";
+import SubHome from "./pages/sub/SubHome";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -76,10 +77,13 @@ const App = () => {
         ></Route>
         <Route exact path="/forgot/password" component={ForgotPassword}></Route>
         <Route exact path={`/category/:slug`} component={CategoryHome} />
+        <Route exact path={`/sub/:slug`} component={SubHome} />
+        <Route exact path="/product/:slug" component={Product} />
+
         <UserRoute exact path="/user/history" component={History}></UserRoute>
         <UserRoute exact path="/user/password" component={Password}></UserRoute>
         <UserRoute exact path="/user/wishlist" component={Wishlist}></UserRoute>
-        <Route exact path="/product/:slug" component={Product} />
+
         <AdminRoute
           exact
           path="/admin/dashboard"

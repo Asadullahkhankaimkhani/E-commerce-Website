@@ -3,6 +3,7 @@ import NewArrival from "../components/Home/NewArrival";
 import BestSeller from "../components/Home/BestSeller";
 import CategoryList from "../components/category/CategoryList";
 import Jumbotron from "../components/cards/Jumbotron";
+import SubList from "../components/sub/SubList";
 
 const Home = () => {
   return (
@@ -20,6 +21,10 @@ const Home = () => {
       <BestSeller />
       <div className="jumbotron text-center p-3 mt-5 display-3">Categories</div>
       <CategoryList />
+      <div className="jumbotron text-center p-3 mt-5 display-3">
+        Sub Categories
+      </div>
+      <SubList />
     </>
   );
 };
