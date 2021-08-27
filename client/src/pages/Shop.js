@@ -1,15 +1,18 @@
 import React, { useEffect, useState } from "react";
 import { getProductByCount, fetchProductByFilter } from "../functions/product";
+import { getCategories } from "../functions/category";
 import { useSelector, useDispatch } from "react-redux";
 import ProductCard from "../components/cards/ProductCard";
-import { Menu, Slider } from "antd";
-import { DollarOutlined } from "@ant-design/icons";
+import { Menu, Slider, Checkbox } from "antd";
+import { DollarOutlined, DownSquareOutlined } from "@ant-design/icons";
 
 const Shop = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(false);
   const [price, setPrice] = useState([0, 0]);
   const [ok, setOk] = useState(false);
+  const [categories, setCategories] = useState([]);
+
   const dispatch = useDispatch();
   const { search } = useSelector((state) => ({ ...state }));
 
@@ -25,6 +28,10 @@ const Shop = () => {
   };
   useEffect(() => {
     loadAllProducts();
+    getCategories().then(({ data }) => {
+      setCategories(data);
+      console.log(data);
+    });
   }, []);
 
   // 2. load products on user search input
@@ -56,6 +63,19 @@ const Shop = () => {
       setOk(!ok);
     }, 300);
   };
+
+  // 4.  Load Product Based on Categories
+  // show categories in a list of checkbox
+  const showCategories = () => {
+    categories.map((c) => (
+      <div key={c._id}>
+        <div className="pb-2 pl-4 pr-4" value={c._id} name="category">
+          {c.name}
+        </div>
+      </div>
+    ));
+  };
+
   return (
     <div className="container-fluid">
       <div className="row">
@@ -81,6 +101,17 @@ const Shop = () => {
                   max="49999"
                 />
               </div>
+            </SubMenu>
+
+            <SubMenu
+              key="2"
+              title={
+                <span className="h6">
+                  <DownSquareOutlined /> Categories
+                </span>
+              }
+            >
+              <div>{showCategories()}</div>
             </SubMenu>
           </Menu>
         </div>

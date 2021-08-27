@@ -203,7 +203,7 @@ const handlePrice = async (req, res, price) => {
   }
 };
 
-const handleCategory = (req, res, category) => {
+const handleCategory = async (req, res, category) => {
   try {
     let products = await Product.find({ category })
       .populate("category", "_id name")
@@ -215,7 +215,7 @@ const handleCategory = (req, res, category) => {
     console.log(error);
   }
 };
-
+/// All Search
 exports.searchFilter = async (req, res) => {
   const { query, price, category } = req.body;
   if (query) {
