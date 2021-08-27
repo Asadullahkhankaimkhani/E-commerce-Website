@@ -171,6 +171,8 @@ exports.listRelated = async (req, res) => {
   res.json(related);
 };
 
+// SERACH / FILTER
+
 const handleQuery = async (req, res, query) => {
   const products = await Product.find({ $text: { $search: query } })
     .populate("category", "_id name")
