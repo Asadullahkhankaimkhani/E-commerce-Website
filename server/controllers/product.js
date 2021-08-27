@@ -223,6 +223,6 @@ exports.searchFilter = async (req, res) => {
   } else if (price !== undefined) {
     await handlePrice(req, res, price);
   } else if (category) {
-    await handlePrice(req, res, category);
+    await handleCategory(req, res, category);
   }
 };

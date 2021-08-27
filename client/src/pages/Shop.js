@@ -12,6 +12,7 @@ const Shop = () => {
   const [price, setPrice] = useState([0, 0]);
   const [ok, setOk] = useState(false);
   const [categories, setCategories] = useState([]);
+  const [categoriesIds, setCategoriesIds] = useState([]);
 
   const dispatch = useDispatch();
   const { search } = useSelector((state) => ({ ...state }));
@@ -57,6 +58,7 @@ const Shop = () => {
       type: "SEARCH_QUERY",
       payload: { text: "" },
     });
+    setCategoriesIds([]);
 
     setPrice(value);
     setTimeout(() => {
@@ -64,16 +66,46 @@ const Shop = () => {
     }, 300);
   };
 
-  // 4.  Load Product Based on Categories
+  // 4. load products based on category
   // show categories in a list of checkbox
-  const showCategories = () => {
+  const showCategories = () =>
     categories.map((c) => (
       <div key={c._id}>
-        <div className="pb-2 pl-4 pr-4" value={c._id} name="category">
+        <Checkbox
+          className="pb-2 pl-4 pr-4"
+          value={c._id}
+          name="category"
+          onChange={handleCheck}
+          checked={categoriesIds.includes(c._id)}
+        >
           {c.name}
-        </div>
+        </Checkbox>
+        <br />
       </div>
     ));
+
+  const handleCheck = async (e) => {
+    dispatch({
+      type: "SEARCH_QUERY",
+      payload: { text: "" },
+    });
+    setPrice([0, 0]);
+
+    let intheState = [...categoriesIds];
+    let justChecked = e.target.value;
+    let findInTheState = intheState.indexOf(justChecked);
+
+    // if not found return -1 else index
+    if (findInTheState === -1) {
+      intheState.push(justChecked);
+    } else {
+      intheState.splice(findInTheState, 1);
+    }
+
+    setCategoriesIds(intheState);
+    console.log(intheState);
+
+    fetchProducts({ category: intheState });
   };
 
   return (
@@ -111,7 +143,7 @@ const Shop = () => {
                 </span>
               }
             >
-              <div>{showCategories()}</div>
+              {showCategories()}
             </SubMenu>
           </Menu>
         </div>
