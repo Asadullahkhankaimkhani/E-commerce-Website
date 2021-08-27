@@ -22,6 +22,7 @@ import AllProduct from "./pages/admin/product/AllProduct";
 import ProductUpdate from "./pages/admin/product/ProductUpdate";
 import Product from "./pages/Product";
 import CategoryHome from "./pages/category/CategoryHome";
+import Shop from "./pages/Shop";
 // Componnets
 import Header from "./components/nav/Header";
 import UserRoute from "./components/routes/UserRoute";
@@ -79,6 +80,7 @@ const App = () => {
         <Route exact path={`/category/:slug`} component={CategoryHome} />
         <Route exact path={`/sub/:slug`} component={SubHome} />
         <Route exact path="/product/:slug" component={Product} />
+        <Route exact path={"/shop"} component={Shop} />
 
         <UserRoute exact path="/user/history" component={History}></UserRoute>
         <UserRoute exact path="/user/password" component={Password}></UserRoute>

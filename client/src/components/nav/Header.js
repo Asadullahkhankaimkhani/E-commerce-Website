@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import { Menu } from "antd";
 import {
-  AppstoreAddOutlined,
+  AppstoreOutlined,
   SettingOutlined,
   UserOutlined,
   UserAddOutlined,
   LogoutOutlined,
+  ShoppingOutlined,
 } from "@ant-design/icons";
 import { Link } from "react-router-dom";
 import firebase from "firebase";
@@ -36,43 +37,52 @@ const Header = () => {
   };
   return (
     <Menu onClick={handleClick} selectedKeys={[current]} mode="horizontal">
-      <Item key="mail" icon={<AppstoreAddOutlined />} className="mr-auto">
+      <Item key="home" icon={<AppstoreOutlined />}>
         <Link to="/">Home</Link>
       </Item>
+
+      <Item key="shop" icon={<ShoppingOutlined />} className="mr-auto">
+        <Link to="/shop">Shop</Link>
+      </Item>
+      <Item className="float-right p-1">
+        <Search />
+      </Item>
+
+      {!user && (
+        <Item key="register" icon={<UserAddOutlined />} className="float-right">
+          <Link to="/register">Register</Link>
+        </Item>
+      )}
+
+      {!user && (
+        <Item key="login" icon={<UserOutlined />} className="float-right">
+          <Link to="/login">Login</Link>
+        </Item>
+      )}
+
       {user && (
         <SubMenu
-          key="SubMenu"
           icon={<SettingOutlined />}
-          title={user.email.split("@")[0]}
+          title={user.email && user.email.split("@")[0]}
+          className="float-right"
         >
           {user && user.role === "subscriber" && (
-            <Item key="dashboard">
+            <Item>
               <Link to="/user/history">Dashboard</Link>
             </Item>
           )}
+
           {user && user.role === "admin" && (
-            <Item key="dashboard">
+            <Item>
               <Link to="/admin/dashboard">Dashboard</Link>
             </Item>
           )}
-          <Item key="log-out" icon={<LogoutOutlined />} onClick={logout}>
+
+          <Item icon={<LogoutOutlined />} onClick={logout}>
             Logout
           </Item>
         </SubMenu>
       )}
-      {!user && (
-        <>
-          <Item key="login" icon={<UserOutlined />}>
-            <Link to="/login">Login</Link>
-          </Item>
-          <Item key="register" icon={<UserAddOutlined />}>
-            <Link to="/register">Register</Link>
-          </Item>
-        </>
-      )}
-      <span className="float-right mr-1">
-        <Search />
-      </span>
     </Menu>
   );
 };
