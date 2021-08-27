@@ -2,16 +2,19 @@ import React, { useEffect, useState } from "react";
 import { getProductByCount, fetchProductByFilter } from "../functions/product";
 import { useSelector, useDispatch } from "react-redux";
 import ProductCard from "../components/cards/ProductCard";
+import { Menu, Slider } from "antd";
+import { DollarOutlined } from "@ant-design/icons";
 
 const Shop = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(false);
-
+  const [price, setPrice] = useState([0, 0]);
+  const [ok, setOk] = useState(false);
+  const dispatch = useDispatch();
   const { search } = useSelector((state) => ({ ...state }));
+
   const { text } = search;
-  useEffect(() => {
-    loadAllProducts();
-  }, []);
+  const { SubMenu, ItemGroup } = Menu;
 
   // 1. load products by default on page load
   const loadAllProducts = () => {
@@ -20,6 +23,9 @@ const Shop = () => {
       setLoading(false);
     });
   };
+  useEffect(() => {
+    loadAllProducts();
+  }, []);
 
   // 2. load products on user search input
   useEffect(() => {
@@ -30,18 +36,56 @@ const Shop = () => {
   }, [text]);
 
   const fetchProducts = async (arg) => {
-    // fetchProductByFilter(arg).then((res) => {
-    //   setProducts(res.data);
-    // });
     const { data } = await fetchProductByFilter(arg);
     setProducts(data);
+  };
+
+  // 3.load products based on price range
+
+  useEffect(() => {
+    fetchProducts({ price });
+  }, [ok]);
+  const handleSlider = (value) => {
+    dispatch({
+      type: "SEARCH_QUERY",
+      payload: { text: "" },
+    });
+
+    setPrice(value);
+    setTimeout(() => {
+      setOk(!ok);
+    }, 300);
   };
   return (
     <div className="container-fluid">
       <div className="row">
-        <div className="col-md-3">search/filter menu</div>
+        <div className="col-md-3">
+          <h4>search/filter menu</h4>
+          <hr />
+          <Menu defaultOpenKeys={["1", "2"]} mode="inline">
+            <SubMenu
+              key="1"
+              title={
+                <span className="h6">
+                  <DollarOutlined /> Price
+                </span>
+              }
+            >
+              <div>
+                <Slider
+                  className="ml-4 mr-4"
+                  tipFormatter={(v) => `$${v}`}
+                  range
+                  value={price}
+                  onChange={handleSlider}
+                  max="49999"
+                />
+              </div>
+            </SubMenu>
+          </Menu>
+        </div>
 
-        <div className="col-md-9">
+        <div className="col-md-9 pt-2">
           {loading ? (
             <h4 className="text-danger">Loading...</h4>
           ) : (
@@ -50,7 +94,7 @@ const Shop = () => {
 
           {products.length < 1 && <p>No products found</p>}
 
-          <div className="row pb-5">
+          <div className="row pb-5 pt-2">
             {products.map((p) => (
               <div key={p._id} className="col-md-4 mt-3">
                 <ProductCard product={p} />
