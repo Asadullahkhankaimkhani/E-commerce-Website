@@ -215,14 +215,26 @@ const handleCategory = async (req, res, category) => {
     console.log(error);
   }
 };
+
+const handleStar = async (res, res, star) => {
+  Product.aggregate([
+    {
+      $project: {
+        document: "$$ROOT",
+      },
+    },
+  ]);
+};
 /// All Search
 exports.searchFilter = async (req, res) => {
-  const { query, price, category } = req.body;
+  const { query, price, category, star } = req.body;
   if (query) {
     await handleQuery(req, res, query);
   } else if (price !== undefined) {
     await handlePrice(req, res, price);
   } else if (category) {
     await handleCategory(req, res, category);
+  } else if (star) {
+    await handleStar(req, res, star);
   }
 };
