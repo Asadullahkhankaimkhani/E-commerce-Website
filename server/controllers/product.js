@@ -216,14 +216,31 @@ const handleCategory = async (req, res, category) => {
   }
 };
 
-const handleStar = async (res, res, star) => {
-  Product.aggregate([
-    {
-      $project: {
-        document: "$$ROOT",
+const handleStar = async (req, res, star) => {
+  try {
+    const aggregates = await Product.aggregate([
+      {
+        $project: {
+          document: "$$ROOT",
+          floorAverage: {
+            $floor: { $avg: "$ratings.star" },
+          },
+        },
       },
-    },
-  ]);
+      { $match: { floorAverage: star } },
+    ])
+      .limit(12)
+      .exec();
+    const products = await Product.find({ _id: aggregates })
+      .populate("category", "_id name")
+      .populate("subs", "_id name")
+      .populate("postedBy", "_id name")
+      .exec();
+
+    res.json(products);
+  } catch (error) {
+    console.log(error);
+  }
 };
 /// All Search
 exports.searchFilter = async (req, res) => {
