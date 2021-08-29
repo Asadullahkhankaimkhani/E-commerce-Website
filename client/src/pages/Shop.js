@@ -5,6 +5,7 @@ import { useSelector, useDispatch } from "react-redux";
 import ProductCard from "../components/cards/ProductCard";
 import { Menu, Slider, Checkbox } from "antd";
 import { DollarOutlined, DownSquareOutlined } from "@ant-design/icons";
+import Star from "../components/forms/Star";
 
 const Shop = () => {
   const [products, setProducts] = useState([]);
@@ -13,6 +14,7 @@ const Shop = () => {
   const [ok, setOk] = useState(false);
   const [categories, setCategories] = useState([]);
   const [categoriesIds, setCategoriesIds] = useState([]);
+  const [star, setStar] = useState("");
 
   const dispatch = useDispatch();
   const { search } = useSelector((state) => ({ ...state }));
@@ -108,6 +110,8 @@ const Shop = () => {
     fetchProducts({ category: intheState });
   };
 
+  // 5. Product by Star values
+
   return (
     <div className="container-fluid">
       <div className="row">
@@ -143,7 +147,7 @@ const Shop = () => {
                 </span>
               }
             >
-              {showCategories()}
+              <div style={{ marginTop: "-10px" }}> {showCategories()}</div>
             </SubMenu>
           </Menu>
         </div>
