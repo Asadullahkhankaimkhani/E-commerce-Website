@@ -154,19 +154,6 @@ exports.listRelated = async (req, res) => {
     .populate("subs")
     .populate("postedBy")
     .exec();
-};
-exports.listRelated = async (req, res) => {
-  const product = await Product.findById(req.params.productId).exec();
-
-  const related = await Product.find({
-    _id: { $ne: product._id },
-    category: product.category,
-  })
-    .limit(3)
-    .populate("category")
-    .populate("subs")
-    .populate("postedBy")
-    .exec();
 
   res.json(related);
 };
@@ -293,12 +280,12 @@ exports.searchFilter = async (req, res) => {
   } else if (sub) {
     await handleSub(req, res, sub);
   } else if (shipping) {
-    await handleShipping;
+    await handleShipping(req, res, shipping);
   } else if (color) {
-    await handleShipping;
+    await handleColor(req, res, color);
   } else if (brand) {
-    await handleShipping;
+    await handleBrand(req, res, brand);
   } else {
-    console.log("Wrong Data");
+    //
   }
 };
