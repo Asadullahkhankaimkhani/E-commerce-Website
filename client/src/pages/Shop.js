@@ -59,12 +59,14 @@ const Shop = () => {
   useEffect(() => {
     fetchProducts({ price });
   }, [ok]);
+
   const handleSlider = (value) => {
     dispatch({
       type: "SEARCH_QUERY",
       payload: { text: "" },
     });
     setCategoriesIds([]);
+    setStar("");
 
     setPrice(value);
     setTimeout(() => {
@@ -97,6 +99,8 @@ const Shop = () => {
     });
     setPrice([0, 0]);
 
+    setStar("");
+
     let intheState = [...categoriesIds];
     let justChecked = e.target.value;
     let findInTheState = intheState.indexOf(justChecked);
@@ -118,6 +122,14 @@ const Shop = () => {
 
   const handleStarClick = (num) => {
     console.log(num);
+    dispatch({
+      type: "SEARCH_QUERY",
+      payload: { text: "" },
+    });
+    setCategoriesIds([]);
+    setPrice([0, 0]);
+    setStar(num);
+    fetchProducts({ star: num });
   };
 
   const showStars = () => (
