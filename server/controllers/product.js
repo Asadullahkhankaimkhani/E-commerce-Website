@@ -250,12 +250,12 @@ const handleSub = async (req, res, sub) => {
     .populate("postedBy", "_id name")
     .exec();
 
-  res.json({ products });
+  res.json(products);
 };
 
 /// All Search
 exports.searchFilter = async (req, res) => {
-  const { query, price, category, star } = req.body;
+  const { query, price, category, star, sub } = req.body;
   if (query) {
     await handleQuery(req, res, query);
   } else if (price !== undefined) {
