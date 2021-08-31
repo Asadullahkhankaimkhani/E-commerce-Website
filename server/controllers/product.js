@@ -253,9 +253,35 @@ const handleSub = async (req, res, sub) => {
   res.json(products);
 };
 
+const handleShipping = async (req, res, shipping) => {
+  const products = await Product.find({ shipping })
+    .populate("category", "_id name")
+    .populate("subs", "_id name")
+    .populate("postedBy", "_id name")
+    .exec();
+  res.json(products);
+};
+const handleColor = async (req, res, color) => {
+  const products = await Product.find({ color })
+    .populate("category", "_id name")
+    .populate("subs", "_id name")
+    .populate("postedBy", "_id name")
+    .exec();
+  res.json(products);
+};
+const handleBrand = async (req, res, brand) => {
+  const products = await Product.find({ brand })
+    .populate("category", "_id name")
+    .populate("subs", "_id name")
+    .populate("postedBy", "_id name")
+    .exec();
+  res.json(products);
+};
+
 /// All Search
 exports.searchFilter = async (req, res) => {
-  const { query, price, category, star, sub } = req.body;
+  const { query, price, category, star, sub, shipping, color, brand } =
+    req.body;
   if (query) {
     await handleQuery(req, res, query);
   } else if (price !== undefined) {
@@ -266,5 +292,13 @@ exports.searchFilter = async (req, res) => {
     await handleStar(req, res, star);
   } else if (sub) {
     await handleSub(req, res, sub);
+  } else if (shipping) {
+    await handleShipping;
+  } else if (color) {
+    await handleShipping;
+  } else if (brand) {
+    await handleShipping;
+  } else {
+    console.log("Wrong Data");
   }
 };
