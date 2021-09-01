@@ -5,12 +5,16 @@ import { Link } from "react-router-dom";
 const Cart = () => {
   // redux
   const { cart, user } = useSelector((state) => ({ ...state }));
-  const disptch = useDispatch();
+  const dispatch = useDispatch();
 
   const getTotal = () => {
     return cart.reduce((current, next) => {
       return current + next.count * next.price;
     }, 0);
+  };
+
+  const saveOrderToDb = () => {
+    //
   };
 
   return (
@@ -42,15 +46,28 @@ const Cart = () => {
             </div>
           ))}
           <hr />
-          <b>Total ${getTotal()}</b>
+          <p>
+            Total $ <b>{getTotal()}</b>
+          </p>
           <hr />
           {user ? (
-            <button className="btn btn-sm btn-priamry mt-2">
+            <button
+              oncClick={saveOrderToDb}
+              className="btn btn-sm btn-primary mt-2"
+              disabled={!cart.length}
+            >
               Proceed to Checkout
             </button>
           ) : (
-            <button className="btn btn-sm btn primary mt2">
-              Login to Checkout
+            <button className="btn btn-sm btn-primary mt2">
+              <Link
+                to={{
+                  pathname: "/login",
+                  state: { from: "cart" },
+                }}
+              >
+                Login to Checkout
+              </Link>
             </button>
           )}
         </div>
