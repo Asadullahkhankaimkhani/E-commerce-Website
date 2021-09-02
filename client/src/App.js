@@ -37,6 +37,7 @@ import { useDispatch } from "react-redux";
 // Functions
 import { currentUser } from "./functions/auth";
 import SubHome from "./pages/sub/SubHome";
+import Checkout from "./pages/Checkout";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -89,6 +90,7 @@ const App = () => {
         <UserRoute exact path="/user/history" component={History}></UserRoute>
         <UserRoute exact path="/user/password" component={Password}></UserRoute>
         <UserRoute exact path="/user/wishlist" component={Wishlist}></UserRoute>
+        <UserRoute exact path="/checkout" component={Checkout}></UserRoute>
 
         <AdminRoute
           exact

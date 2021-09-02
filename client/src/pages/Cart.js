@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import ProductCardInCheckout from "../components/cards/ProductCardInCheckout";
 
-const Cart = () => {
+const Cart = ({ history }) => {
   // redux
   const { cart, user } = useSelector((state) => ({ ...state }));
   const dispatch = useDispatch();
@@ -15,7 +15,8 @@ const Cart = () => {
   };
 
   const saveOrderToDb = () => {
-    //
+    alert("Save to Db");
+    history.push("/checkout");
   };
 
   const showCartItems = () => (
@@ -73,7 +74,7 @@ const Cart = () => {
           <hr />
           {user ? (
             <button
-              oncClick={saveOrderToDb}
+              onClick={saveOrderToDb}
               className="btn btn-sm btn-primary mt-2"
               disabled={!cart.length}
             >
