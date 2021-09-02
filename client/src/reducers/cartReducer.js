@@ -11,9 +11,7 @@ if (typeof window !== "undefined") {
 }
 
 export const cartReducer = (state = initialState, action) => {
-  const { type } = action;
-
-  switch (type) {
+  switch (action.type) {
     case "ADD_TO_CART":
       return action.payload;
     default:

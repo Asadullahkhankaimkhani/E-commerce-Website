@@ -28,6 +28,7 @@ import Cart from "./pages/Cart";
 import Header from "./components/nav/Header";
 import UserRoute from "./components/routes/UserRoute";
 import AdminRoute from "./components/routes/AdminRoute";
+import SideDrawer from "./components/drawer/SideDrawer";
 
 import "react-toastify/dist/ReactToastify.css";
 import { auth } from "./firebase";
@@ -67,6 +68,7 @@ const App = () => {
   return (
     <Fragment>
       <Header />
+      <SideDrawer />
       <ToastContainer />
       <Switch>
         <Route exact path="/" component={Home}></Route>
