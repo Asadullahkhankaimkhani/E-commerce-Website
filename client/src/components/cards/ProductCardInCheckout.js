@@ -3,12 +3,18 @@ import laptop from "../../images/laptop.jpg";
 import ModalImage from "react-modal-image";
 import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
+import {
+  CheckCircleOutlined,
+  CloseCircleOutlined,
+  CloseOutlined,
+} from "@ant-design/icons";
 
 const ProductCardInCheckout = ({ p }) => {
   const color = ["Black", "Brown", "Silver", "White", "Blue"];
 
   const dispatch = useDispatch();
 
+  // Handle Color Function
   const handleColorChange = (e) => {
     let cart = [];
     if (typeof window !== "undefined") {
@@ -27,6 +33,8 @@ const ProductCardInCheckout = ({ p }) => {
       payload: cart,
     });
   };
+
+  /// Handle Quantity Function
 
   const handleQunatityChange = (e) => {
     let count = e.target.value < 1 ? 1 : e.target.value;
@@ -55,20 +63,40 @@ const ProductCardInCheckout = ({ p }) => {
     });
   };
 
+  // Remove Item from Cart
+  const handleRemove = () => {
+    let cart = [];
+    if (typeof window !== "undefined") {
+      if (localStorage.getItem("cart")) {
+        cart = JSON.parse(localStorage.getItem("cart"));
+      }
+    }
+    cart.map((product, i) => {
+      if (product._id === p._id) {
+        cart.splice(1, 1);
+      }
+    });
+    localStorage.setItem("cart", JSON.stringify(cart));
+    dispatch({
+      type: "ADD_TO_CART",
+      payload: cart,
+    });
+  };
+
   return (
     <tbody>
       <tr>
-        <td style={{ width: "100px", height: "auto" }}>
+        <td style={{ width: "120px", height: "auto" }}>
           {p.images.length ? (
             <ModalImage small={p.images[0].url} large={p.images[0].url} />
           ) : (
             <ModalImage small={laptop} large={laptop} />
           )}
         </td>
-        <td>{p.title}</td>
-        <td>{p.price}</td>
-        <td>{p.brand}</td>
-        <td>
+        <td className="text-center"> {p.title}</td>
+        <td className="text-center">{p.price}</td>
+        <td className="text-center">{p.brand}</td>
+        <td className="text-center">
           <select
             name="color"
             onChange={handleColorChange}
@@ -100,8 +128,16 @@ const ProductCardInCheckout = ({ p }) => {
             onChange={handleQunatityChange}
           />
         </td>
-        <td>Shipping</td>
-        <td>Delete Icon</td>
+        <td className="text-center">
+          {p.shipping === "Yes" ? (
+            <CheckCircleOutlined className="text-success" />
+          ) : (
+            <CloseCircleOutlined className="text-danger" />
+          )}
+        </td>
+        <td className="text-center">
+          <CloseOutlined onClick={handleRemove} className="btn text-danger" />
+        </td>
       </tr>
     </tbody>
   );
