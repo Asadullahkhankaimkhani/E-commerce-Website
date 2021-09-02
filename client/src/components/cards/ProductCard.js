@@ -36,10 +36,17 @@ const ProductCard = ({ product }) => {
     localStorage.setItem("cart", JSON.stringify(unique));
     setTooltip("Added");
 
-    // add to redux state
+    // add to redux state sending Unique Products
     dispatch({
       type: "ADD_TO_CART",
       payload: unique,
+    });
+
+    // Add redux State and showing Drawer
+
+    dispatch({
+      type: "SET_VISIBLE",
+      payload: true,
     });
   };
 

@@ -45,6 +45,12 @@ const SingleProduct = ({ product, onStarClick, star }) => {
       type: "ADD_TO_CART",
       payload: unique,
     });
+    // Add redux State and showing Drawer
+
+    dispatch({
+      type: "SET_VISIBLE",
+      payload: true,
+    });
   };
 
   return (
