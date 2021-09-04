@@ -38,6 +38,7 @@ import { useDispatch } from "react-redux";
 import { currentUser } from "./functions/auth";
 import SubHome from "./pages/sub/SubHome";
 import Checkout from "./pages/Checkout";
+import CreateCouponPage from "./pages/admin/coupon/CreateCouponPage";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -120,6 +121,7 @@ const App = () => {
           path="/admin/product/:slug"
           component={ProductUpdate}
         />
+        <AdminRoute exact path="/admin/coupons" component={CreateCouponPage} />
       </Switch>
     </Fragment>
   );
