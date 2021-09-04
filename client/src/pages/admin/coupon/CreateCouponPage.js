@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import DatePicker from "react-datepicker";
@@ -11,6 +11,11 @@ import {
 import { DeleteOutlined } from "@ant-design/icons";
 import AdminNav from "../../../components/nav/AdminNav";
 const CreateCouponPage = () => {
+  const [name, setName] = useState("");
+  const [expiry, setExpiry] = useState("");
+  const [discount, setDiscount] = useState("");
+  const [loading, setLoading] = useState(false);
+
   return (
     <div className="container-fluid">
       <div className="row">
@@ -19,6 +24,7 @@ const CreateCouponPage = () => {
         </div>
         <div className="col-md-10">
           <h4>Coupon</h4>
+          
         </div>
       </div>
     </div>
