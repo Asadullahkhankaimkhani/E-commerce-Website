@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import DatePicker from "react-datepicker";
@@ -16,8 +16,17 @@ const CreateCouponPage = () => {
   const [expiry, setExpiry] = useState("");
   const [discount, setDiscount] = useState("");
   const [loading, setLoading] = useState(false);
+  const [coupons, setCoupons] = useState([]);
 
+  // Redux State
   const { user } = useSelector((state) => ({ ...state }));
+
+  useEffect(() => {
+    getCoupons().then(({ data }) => {
+      setCoupons(data);
+      console.log(data)
+    });
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -44,7 +53,7 @@ const CreateCouponPage = () => {
           <AdminNav />
         </div>
         <div className="col-md-10">
-          <h4>Coupon</h4>
+          {loading ? <h4>Loading.....</h4> : <h4>Coupon</h4>}
           <form onSubmit={handleSubmit}>
             <div className="from-group">
               <label htmlFor="" className="text-muted">
@@ -82,6 +91,30 @@ const CreateCouponPage = () => {
             </div>
             <button className="btn btn-outlined-primary">Save</button>
           </form>
+          <h4>{coupons.length}</h4>
+
+          <table className="table table-bordered">
+            <thead className="thead-light">
+              <tr>
+                <th scope="col">Name</th>
+                <th scope="col">Expiry</th>
+                <th scope="col">Discount</th>
+                <th scope="col">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              {coupons.map((c) => (
+                <tr key={c._id}>
+                  <td>{c.name}</td>
+                  <td>{c.expiry}</td>
+                  <td>{c.discount}</td>
+                  <td>
+                    <DeleteOutlined />
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
       </div>
     </div>
