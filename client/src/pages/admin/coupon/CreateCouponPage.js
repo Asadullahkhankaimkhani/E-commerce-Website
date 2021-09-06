@@ -12,6 +12,7 @@ import { DeleteOutlined } from "@ant-design/icons";
 import AdminNav from "../../../components/nav/AdminNav";
 
 const CreateCouponPage = () => {
+  // State for this page
   const [name, setName] = useState("");
   const [expiry, setExpiry] = useState("");
   const [discount, setDiscount] = useState("");
@@ -24,7 +25,7 @@ const CreateCouponPage = () => {
   useEffect(() => {
     getCoupons().then(({ data }) => {
       setCoupons(data);
-      console.log(data)
+      console.log(data);
     });
   }, []);
 
