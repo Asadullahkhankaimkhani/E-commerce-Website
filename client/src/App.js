@@ -24,6 +24,7 @@ import Product from "./pages/Product";
 import CategoryHome from "./pages/category/CategoryHome";
 import Shop from "./pages/Shop";
 import Cart from "./pages/Cart";
+import Payment from "./pages/Payment";
 // Componnets
 import Header from "./components/nav/Header";
 import UserRoute from "./components/routes/UserRoute";
@@ -92,6 +93,7 @@ const App = () => {
         <UserRoute exact path="/user/password" component={Password}></UserRoute>
         <UserRoute exact path="/user/wishlist" component={Wishlist}></UserRoute>
         <UserRoute exact path="/checkout" component={Checkout}></UserRoute>
+        <UserRoute exact path="/payment" component={Payment} />
 
         <AdminRoute
           exact

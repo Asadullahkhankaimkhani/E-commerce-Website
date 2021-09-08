@@ -9,7 +9,8 @@ import {
 import { toast } from "react-toastify";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
-const Checkout = () => {
+
+const Checkout = ({ history }) => {
   const [products, setProducts] = useState([]);
   const [total, setTotal] = useState(0);
   const [address, setAddress] = useState("");
@@ -68,11 +69,17 @@ const Checkout = () => {
       console.log(data);
       if (data) {
         setTotalAfterDiscount(data);
-        // push the totalafterdiscount to redux
+        dispatch({
+          type: "COUPON_APPLIED",
+          payload: true,
+        });
       }
       if (data.err) {
         setDiscountError(data.err);
-        // update redux coupon applied
+        dispatch({
+          type: "COUPON_APPLIED",
+          payload: false,
+        });
       }
     });
   };
@@ -143,6 +150,7 @@ const Checkout = () => {
             <button
               className="btn btn-primary"
               disabled={!addressSave || !products.length}
+              onClick={() => history.push("/payment")}
             >
               Place Order
             </button>
