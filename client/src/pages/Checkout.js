@@ -15,7 +15,7 @@ const Checkout = () => {
   const [address, setAddress] = useState("");
   const [addressSave, setAddressSave] = useState(false);
   const [coupon, setCoupon] = useState("");
-  const [totalAfterDiscout, setTotalAfterDiscount] = useState("");
+  const [totalAfterDiscout, setTotalAfterDiscount] = useState(0);
   const [discountError, setDiscountError] = useState("");
 
   const dispatch = useDispatch();
@@ -36,7 +36,7 @@ const Checkout = () => {
       }
       // Remove from Redux State
       dispatch({
-        type: "Add_TO_CART",
+        type: "ADD_TO_CART",
         payload: [],
       });
 
@@ -44,6 +44,8 @@ const Checkout = () => {
       const res = await emptyUserCart(user.token);
       setProducts([]);
       setTotal(0);
+      setTotalAfterDiscount(0);
+      setCoupon("");
       toast("Cart is empty.Continue Shopping");
     } catch (error) {
       console.log(error);
@@ -99,7 +101,10 @@ const Checkout = () => {
       <input
         type="text"
         className="form-control"
-        onChange={(e) => setCoupon(e.target.value)}
+        onChange={(e) => {
+          setCoupon(e.target.value);
+          setDiscountError("");
+        }}
         value={coupon}
       />
       <button onClick={applyDiscountCoupon} className="btn btn-primary mt-2">
@@ -117,6 +122,8 @@ const Checkout = () => {
         <hr />
         <h4>Got Coupon</h4>
         {showApplyCoupon()}
+        <hr />
+        {discountError && <p className="bg-danger p-2">{discountError}</p>}
       </div>
       <div className="col-md-6">
         <h4>Order Summary </h4>
@@ -126,6 +133,11 @@ const Checkout = () => {
         {showProductSummary()}
         <hr />
         <p>Cart Total: ${total}</p>
+        {totalAfterDiscout > 0 && (
+          <p className="bg-success p-2">
+            Total After Discount Payable: ${totalAfterDiscout}
+          </p>
+        )}
         <div className="row">
           <div className="col-md-6">
             <button

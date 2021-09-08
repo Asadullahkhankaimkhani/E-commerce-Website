@@ -16,7 +16,6 @@ exports.userCart = async (req, res) => {
 
   if (cartExistByThisUser) {
     cartExistByThisUser.remove();
-    console.log("removed old cart");
   }
 
   for (let i = 0; i < cart.length; i++) {
@@ -47,7 +46,7 @@ exports.userCart = async (req, res) => {
     orderdBy: user._id,
   }).save();
 
-  console.log("new cart ----> ", newCart);
+  // console.log("new cart ----> ", newCart);
   res.json({ ok: true });
 };
 exports.getUserCart = async (req, res) => {
