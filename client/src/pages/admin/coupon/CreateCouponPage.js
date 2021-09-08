@@ -22,11 +22,29 @@ const CreateCouponPage = () => {
   // Redux State
   const { user } = useSelector((state) => ({ ...state }));
 
-  useEffect(() => {
+  const loadCoupons = () => {
     getCoupons().then(({ data }) => {
       setCoupons(data);
-      console.log(data);
     });
+  };
+
+  const handleDelete = async (id) => {
+    try {
+      if (window.confirm("Delete")) {
+        setLoading(true);
+        const { data } = await removeCoupon(id, user.token);
+        setLoading(false);
+        loadCoupons();
+        toast.error(`${data.name} is deleted`);
+      }
+    } catch (error) {
+      toast.error(error);
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    loadCoupons();
   }, []);
 
   const handleSubmit = async (e) => {
@@ -38,11 +56,13 @@ const CreateCouponPage = () => {
         user.token
       );
       setLoading(false);
+      loadCoupons();
       setName("");
       setDiscount("");
       setExpiry("");
       toast.success(`${data.name} Coupoun is Created`);
     } catch (error) {
+      toast.error(error);
       console.log(error);
     }
   };
@@ -76,6 +96,7 @@ const CreateCouponPage = () => {
                 className="form-control"
                 value={discount}
                 onChange={(e) => setDiscount(e.target.value)}
+                required
               />
             </div>
             <div className="from-group">
@@ -107,10 +128,13 @@ const CreateCouponPage = () => {
               {coupons.map((c) => (
                 <tr key={c._id}>
                   <td>{c.name}</td>
-                  <td>{c.expiry}</td>
+                  <td>{new Date(c.expiry).toLocaleDateString()}</td>
                   <td>{c.discount}</td>
                   <td>
-                    <DeleteOutlined />
+                    <DeleteOutlined
+                      className="text-danger btn"
+                      onClick={() => handleDelete(c._id)}
+                    />
                   </td>
                 </tr>
               ))}

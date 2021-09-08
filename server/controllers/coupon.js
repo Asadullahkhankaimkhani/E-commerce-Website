@@ -1,4 +1,4 @@
-const Coupon = require("../models/cart");
+const Coupon = require("../models/coupon");
 
 exports.create = async (req, res) => {
   try {
