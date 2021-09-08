@@ -129,7 +129,7 @@ const CreateCouponPage = () => {
                 <tr key={c._id}>
                   <td>{c.name}</td>
                   <td>{new Date(c.expiry).toLocaleDateString()}</td>
-                  <td>{c.discount}</td>
+                  <td>{c.discount}%</td>
                   <td>
                     <DeleteOutlined
                       className="text-danger btn"
