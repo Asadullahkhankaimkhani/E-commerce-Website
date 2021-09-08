@@ -1,6 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getUserCart, emptyUserCart, saveUserAddress } from "../functions/user";
+import {
+  getUserCart,
+  emptyUserCart,
+  saveUserAddress,
+  applyCoupon,
+} from "../functions/user";
 import { toast } from "react-toastify";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
@@ -10,6 +15,8 @@ const Checkout = () => {
   const [address, setAddress] = useState("");
   const [addressSave, setAddressSave] = useState(false);
   const [coupon, setCoupon] = useState("");
+  const [totalAfterDiscout, setTotalAfterDiscount] = useState("");
+  const [discountError, setDiscountError] = useState("");
 
   const dispatch = useDispatch();
   const { user } = useSelector((state) => ({ ...state }));
@@ -54,7 +61,18 @@ const Checkout = () => {
   };
 
   const applyDiscountCoupon = () => {
-    console.log(coupon);
+    // console.log(coupon);
+    applyCoupon(user.token, coupon).then(({ data }) => {
+      console.log(data);
+      if (data) {
+        setTotalAfterDiscount(data);
+        // push the totalafterdiscount to redux
+      }
+      if (data.err) {
+        setDiscountError(data.err);
+        // update redux coupon applied
+      }
+    });
   };
 
   const showAddress = () => (

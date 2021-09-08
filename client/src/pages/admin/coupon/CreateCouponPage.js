@@ -85,6 +85,7 @@ const CreateCouponPage = () => {
                 className="form-control"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
+                minlength="6"
               />
             </div>
             <div className="from-group">
