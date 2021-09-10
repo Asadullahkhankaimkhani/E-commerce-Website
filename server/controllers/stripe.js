@@ -8,8 +8,13 @@ exports.createPaymentIntent = async (req, res) => {
   // later apply coupon
   // later calculate price
 
+  // find user
+  const user = await User.findOne({ enail: req.user.enail }).exec();
+  // get user cart total
+  const { cartTotal } = await Cart.findOne({ orderdBy: user._id }).exec();
+  console.log(cartTotal);
   const paymentIntent = await stripe.paymentIntents.create({
-    amount: 100,
+    amount: cartTotal * 100,
     currency: "usd",
   });
   console.log();
