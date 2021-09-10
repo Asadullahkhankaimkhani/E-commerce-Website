@@ -13,6 +13,7 @@ const dbConnect = async () => {
       useNewUrlParser: true,
       useCreateIndex: true,
       useUnifiedTopology: true,
+      useFindAndModify: false,
     });
 
     console.log("## DATABASE CONNECTED ##");

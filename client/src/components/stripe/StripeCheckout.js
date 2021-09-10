@@ -7,7 +7,7 @@ import "../../stripe.css";
 
 const StripeCheckout = ({ history }) => {
   const dispatch = useDispatch();
-  const { user } = useSelector((state) => ({ ...state }));
+  const { user, coupon } = useSelector((state) => ({ ...state }));
 
   const [succeeded, setSucceeded] = useState(false);
   const [error, setError] = useState(null);
@@ -65,7 +65,7 @@ const StripeCheckout = ({ history }) => {
   };
 
   useEffect(() => {
-    createPaymentIntent(user.token).then(({ data }) => {
+    createPaymentIntent(user.token, coupon).then(({ data }) => {
       console.log("create payment intent", data);
       setClientSecret(data.clientSecret);
     });
