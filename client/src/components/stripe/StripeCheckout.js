@@ -4,6 +4,9 @@ import { useSelector, useDispatch } from "react-redux";
 import { createPaymentIntent } from "../../functions/stripe";
 import { Link } from "react-router-dom";
 import "../../stripe.css";
+import { Card } from "antd";
+import { DollarOutlined, CheckOutlined } from "@ant-design/icons";
+import Laptop from "../../images/laptop.jpg";
 
 const StripeCheckout = ({ history }) => {
   const dispatch = useDispatch();
@@ -14,6 +17,10 @@ const StripeCheckout = ({ history }) => {
   const [processing, setProcessing] = useState("");
   const [disabled, setDisabled] = useState(true);
   const [clientSecret, setClientSecret] = useState("");
+
+  const [cartTotal, setCartTotal] = useState(0);
+  const [totalAfterDiscount, setTotalAfterDiscount] = useState(0);
+  const [payable, setPayable] = useState(0);
 
   const stripe = useStripe();
   const elements = useElements();
@@ -68,41 +75,83 @@ const StripeCheckout = ({ history }) => {
     createPaymentIntent(user.token, coupon).then(({ data }) => {
       console.log("create payment intent", data);
       setClientSecret(data.clientSecret);
+      setCartTotal(data.cartTotal);
+      setTotalAfterDiscount(data.totalAfterDiscount);
+      setPayable(data.payable);
     });
   }, []);
 
   return (
-    <form id="payment-form" className="stripe-form" onSubmit={handleSubmit}>
-      <CardElement
-        id="card-element"
-        options={cardStyle}
-        onChange={handleChange}
-      />
-      <button
-        disabled={processing || disabled || succeeded}
-        id="submit"
-        className="stripe-button"
-      >
-        <span id="button-text">
-          {processing ? (
-            <div className="spinner" id="spinner"></div>
+    <>
+      {!succeeded && (
+        <div>
+          {coupon && totalAfterDiscount !== undefined ? (
+            <p className="alert alert-success">
+              Total After Discount ${totalAfterDiscount}
+            </p>
           ) : (
-            "Pay now"
+            <p className="alert alert-danger">No Coupon Applied</p>
           )}
-        </span>
-      </button>
-      {/* Show any error that happens when processing the payment */}
-      {error && (
-        <div className="card-error" role="alert">
-          {error}
         </div>
       )}
-      {/* Show a success message upon completion */}
-      <p className={succeeded ? "result-message" : "result-message hidden"}>
-        Payment succeeded, see the result in your
-        <Link to="/user/history"> Watch payment history</Link>
-      </p>
-    </form>
+      <form id="payment-form" className="stripe-form" onSubmit={handleSubmit}>
+        <div className="text-center pb-5">
+          <Card
+            cover={
+              <img
+                src={Laptop}
+                alt="img"
+                style={{
+                  height: "200px",
+                  objectFit: "cover",
+                  marginBottom: "-50px",
+                }}
+              />
+            }
+            actions={[
+              <>
+                <DollarOutlined className="text-info" /> <br /> Total: $
+                {cartTotal}
+              </>,
+              <>
+                <CheckOutlined className="text-info" /> <br /> Total payable: $
+                {(payable / 100).toFixed(2)}
+              </>,
+            ]}
+          />
+        </div>
+
+        <CardElement
+          id="card-element"
+          options={cardStyle}
+          onChange={handleChange}
+        />
+        <button
+          disabled={processing || disabled || succeeded}
+          id="submit"
+          className="stripe-button"
+        >
+          <span id="button-text">
+            {processing ? (
+              <div className="spinner" id="spinner"></div>
+            ) : (
+              "Pay now"
+            )}
+          </span>
+        </button>
+        {/* Show any error that happens when processing the payment */}
+        {error && (
+          <div className="card-error" role="alert">
+            {error}
+          </div>
+        )}
+        {/* Show a success message upon completion */}
+        <p className={succeeded ? "result-message" : "result-message hidden"}>
+          Payment succeeded, see the result in your
+          <Link to="/user/history"> Watch payment history</Link>
+        </p>
+      </form>
+    </>
   );
 };
 
