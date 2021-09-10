@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
 import { useSelector, useDispatch } from "react-redux";
 import { createPaymentIntent } from "../../functions/stripe";
+import { Link } from "react-router-dom";
 import "../../stripe.css";
 
 const StripeCheckout = ({ history }) => {
@@ -47,12 +48,16 @@ const StripeCheckout = ({ history }) => {
     const payload = await stripe.confirmCardPayment(clientSecret, {
       payment_method: {
         card: elements.getElement(CardElement),
+        billing_details: {
+          name: ev.target.name.value,
+        },
       },
     });
     if (payload.error) {
       setError(`Payment failed ${payload.error.message}`);
       setProcessing(false);
     } else {
+      console.log(payload);
       setError(null);
       setProcessing(false);
       setSucceeded(true);
@@ -95,11 +100,7 @@ const StripeCheckout = ({ history }) => {
       {/* Show a success message upon completion */}
       <p className={succeeded ? "result-message" : "result-message hidden"}>
         Payment succeeded, see the result in your
-        <a href={`https://dashboard.stripe.com/test/payments`}>
-          {" "}
-          Stripe dashboard.
-        </a>{" "}
-        Refresh the page to pay again.
+        <Link to="/user/history"> Watch payment history</Link>
       </p>
     </form>
   );
