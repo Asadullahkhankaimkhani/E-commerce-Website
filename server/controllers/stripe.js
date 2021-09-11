@@ -31,7 +31,6 @@ exports.createPaymentIntent = async (req, res) => {
     amount: finalAmount,
     currency: "usd",
   });
-  console.log(cartTotal, "------------->", totalAfterDiscount);
 
   res.send({
     clientSecret: paymentIntent.client_secret,
