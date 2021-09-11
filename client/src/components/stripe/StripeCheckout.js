@@ -7,6 +7,7 @@ import "../../stripe.css";
 import { Card } from "antd";
 import { DollarOutlined, CheckOutlined } from "@ant-design/icons";
 import Laptop from "../../images/laptop.jpg";
+import { createOrder, emptyUserCart } from "../../functions/user";
 
 const StripeCheckout = ({ history }) => {
   const dispatch = useDispatch();
@@ -64,7 +65,28 @@ const StripeCheckout = ({ history }) => {
       setError(`Payment failed ${payload.error.message}`);
       setProcessing(false);
     } else {
-      console.log(payload);
+      // here you get result after Successfil payment
+      // create order and save database for admin to process
+      createOrder(payload, user.token).then(({ data }) => {
+        if (data.ok) {
+          // empty cart from local storage
+          if (typeof window !== "undefined") localStorage.removeItem("cart");
+
+          // empty cart from redux
+          dispatch({
+            type: "ADD_TO_CART",
+            payload: [],
+          });
+          dispatch({
+            type: "COUPON_APPLIED",
+            payload: false,
+          });
+
+          // empty cart from database
+          emptyUserCart(user.token);
+        }
+      });
+      // empty user cart from redux store and local storage
       setError(null);
       setProcessing(false);
       setSucceeded(true);

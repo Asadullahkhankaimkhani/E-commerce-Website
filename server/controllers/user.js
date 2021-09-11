@@ -2,7 +2,7 @@ const User = require("../models/users");
 const Product = require("../models/product");
 const Cart = require("../models/cart");
 const Coupon = require("../models/coupon");
-const Order = reqire("../models/order");
+const Order = require("../models/order");
 
 exports.userCart = async (req, res) => {
   // console.log(req.body); // {cart: []}
@@ -121,6 +121,5 @@ exports.createOrder = async (req, res) => {
     paymentIntent,
     orderdBy: user._id,
   }).save();
-  console.log("New Order Save", newOrder);
   res.json({ ok: true });
 };

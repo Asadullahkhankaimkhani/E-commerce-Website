@@ -52,7 +52,7 @@ const Header = () => {
           </Badge>
         </Link>
       </Item>
-      <Item className="float-right p-1">
+      <Item key="search" className="float-right p-1">
         <Search />
       </Item>
 
@@ -70,23 +70,24 @@ const Header = () => {
 
       {user && (
         <SubMenu
+          key="user"
           icon={<SettingOutlined />}
           title={user.email && user.email.split("@")[0]}
           className="float-right"
         >
           {user && user.role === "subscriber" && (
-            <Item>
+            <Item key="userDashboard">
               <Link to="/user/history">Dashboard</Link>
             </Item>
           )}
 
           {user && user.role === "admin" && (
-            <Item>
+            <Item key="adminDashboard">
               <Link to="/admin/dashboard">Dashboard</Link>
             </Item>
           )}
 
-          <Item icon={<LogoutOutlined />} onClick={logout}>
+          <Item key="logout" icon={<LogoutOutlined />} onClick={logout}>
             Logout
           </Item>
         </SubMenu>

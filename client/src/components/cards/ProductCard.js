@@ -70,13 +70,13 @@ const ProductCard = ({ product }) => {
           />
         }
         actions={[
-          <Link to={`/product/${slug}`}>
+          <Link to={`/product/${slug}`} key="productview">
             <EyeOutlined className="text-warning" />
             <br />
             View Product
           </Link>,
-          <Tooltip title={tooltip}>
-            <Link onClick={handleToAddToCart}>
+          <Tooltip key="tooltip" title={tooltip}>
+            <Link to="" onClick={handleToAddToCart} key="productadd">
               <ShoppingCartOutlined className="text-danger" />
               <br /> add to Card
             </Link>
