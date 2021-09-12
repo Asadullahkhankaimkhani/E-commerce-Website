@@ -88,11 +88,15 @@ const SingleProduct = ({ product, onStarClick, star }) => {
         </div>
         <Card
           actions={[
-            <Tooltip title={tooltip}>
-              <Link onClick={handleToAddToCart}>
+            <Tooltip key="tooltip" title={tooltip}>
+              <a
+                onClick={product.quantity < 1 ? "" : handleToAddToCart}
+                key="productadd"
+                disabled={product.quantity < 1}
+              >
                 <ShoppingCartOutlined className="text-danger" />
-                <br /> add to Card
-              </Link>
+                <br /> {product.quantity < 1 ? "Out of Stock" : "Add to cart"}
+              </a>
             </Tooltip>,
             <Link to="/">
               <HeartOutlined className="text-info" /> <br /> Add to Wishlist
