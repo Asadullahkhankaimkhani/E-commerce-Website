@@ -19,7 +19,7 @@ router.post("/user/address", authCheck, saveAddress);
 
 //
 router.post("/user/order", authCheck, createOrder);
-router.get("/user/order", authCheck, orders);
+router.get("/user/orders", authCheck, orders);
 
 // coupon
 router.post("/user/cart/coupon", authCheck, applyCouponToUserCart);
