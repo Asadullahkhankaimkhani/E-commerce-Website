@@ -121,5 +121,19 @@ exports.createOrder = async (req, res) => {
     paymentIntent,
     orderdBy: user._id,
   }).save();
+  // decrement qunatity increment sold
+  let bultOption = products.map((item) => {
+    return {
+      updateOne: {
+        filter: { _id: item.product._id }, // important item.product
+        update: { $inc: { quantity: -item.count, sold: +item.count } },
+      },
+    };
+  });
+
+  // products.blukwrite()
+  let updated = await Product.bulkWrite(bultOption, {});
+  console.log("product quantity and sold", updated);
+
   res.json({ ok: true });
 };

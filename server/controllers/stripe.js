@@ -11,7 +11,7 @@ exports.createPaymentIntent = async (req, res) => {
   // later calculate price
 
   // find user
-  const user = await User.findOne({ enail: req.user.enail }).exec();
+  const user = await User.findOne({ email: req.user.email }).exec();
   // get user cart total
 
   const { cartTotal, totalAfterDiscount } = await Cart.findOne({
