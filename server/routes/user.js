@@ -9,6 +9,7 @@ const {
   saveAddress,
   applyCouponToUserCart,
   createOrder,
+  orders,
 } = require("../controllers/user");
 
 router.post("/user/cart", authCheck, userCart);
@@ -18,6 +19,7 @@ router.post("/user/address", authCheck, saveAddress);
 
 //
 router.post("/user/order", authCheck, createOrder);
+router.get("/user/order", authCheck, orders);
 
 // coupon
 router.post("/user/cart/coupon", authCheck, applyCouponToUserCart);
