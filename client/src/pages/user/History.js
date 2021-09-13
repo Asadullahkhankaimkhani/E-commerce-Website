@@ -4,6 +4,7 @@ import { getUserOrders } from "../../functions/user";
 import { useSelector, useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import { CheckCircleOutlined, CloseCircleOutlined } from "@ant-design/icons";
+import ShowPaymentInfo from "../../components/cards/ShowPaymentInfo";
 
 const History = () => {
   const [orders, setOrders] = useState([]);
@@ -59,7 +60,7 @@ const History = () => {
   const showEachOrders = () =>
     orders.map((order, i) => (
       <div className="m-5 -3 card" key={i}>
-        <p>show payment info</p>
+        <ShowPaymentInfo order={order} />
         {showOrderInTable(order)}
         <div className="row">
           <div className="col">
