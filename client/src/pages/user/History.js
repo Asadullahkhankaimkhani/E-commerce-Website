@@ -5,74 +5,14 @@ import { useSelector, useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import { CheckCircleOutlined, CloseCircleOutlined } from "@ant-design/icons";
 import ShowPaymentInfo from "../../components/cards/ShowPaymentInfo";
-import Invoice from "../../components/order/invoice";
-import {
-  Document,
-  Page,
-  Text,
-  View,
-  StyleSheet,
-  PDFDownloadLink,
-  PDFViewer,
-} from "@react-pdf/renderer";
+import Invoice from "../../components/order/Invoice";
+import { PDFDownloadLink } from "@react-pdf/renderer";
 
 const History = () => {
   const [orders, setOrders] = useState([]);
 
   // redux State
   const { user } = useSelector((state) => ({ ...state }));
-
-  const styles = StyleSheet.create({
-    body: {
-      paddingTop: 35,
-      paddingBottom: 65,
-      paddingHorizontal: 35,
-    },
-    title: {
-      fontSize: 24,
-      textAlign: "center",
-    },
-    author: {
-      fontSize: 12,
-      textAlign: "center",
-      marginBottom: 40,
-    },
-    subtitle: {
-      fontSize: 18,
-      margin: 12,
-    },
-    text: {
-      margin: 12,
-      fontSize: 14,
-      textAlign: "justify",
-    },
-    image: {
-      marginVertical: 15,
-      marginHorizontal: 100,
-    },
-    header: {
-      fontSize: 12,
-      marginBottom: 20,
-      textAlign: "center",
-      color: "grey",
-    },
-    footer: {
-      padding: "100px",
-      fontSize: 12,
-      marginBottom: 20,
-      textAlign: "center",
-      color: "grey",
-    },
-    pageNumber: {
-      position: "absolute",
-      fontSize: 12,
-      bottom: 30,
-      left: 0,
-      right: 0,
-      textAlign: "center",
-      color: "grey",
-    },
-  });
 
   useEffect(() => {
     loadOrders();
@@ -81,7 +21,6 @@ const History = () => {
   const loadOrders = async () => {
     const { data } = await getUserOrders(user.token);
     setOrders(data);
-    console.log(data);
   };
 
   const showOrderInTable = (order) => (
@@ -118,20 +57,6 @@ const History = () => {
       </tbody>
     </table>
   );
-
-  const showEachOrders = () =>
-    orders.map((order, i) => (
-      <div className="m-5 -3 card" key={i}>
-        <ShowPaymentInfo order={order} />
-        {showOrderInTable(order)}
-        <div className="row">
-          <div className="col">
-            <p>{showDownloadLink()}</p>
-          </div>
-        </div>
-      </div>
-    ));
-
   const showDownloadLink = (order) => (
     <PDFDownloadLink
       document={<Invoice order={order} />}
@@ -141,6 +66,17 @@ const History = () => {
       Download PDF
     </PDFDownloadLink>
   );
+
+  const showEachOrders = () =>
+    orders.map((order, i) => (
+      <div key={i} className="m-5 p-3 card">
+        <ShowPaymentInfo order={order} />
+        {showOrderInTable(order)}
+        <div className="row">
+          <div className="col">{showDownloadLink(order)}</div>
+        </div>
+      </div>
+    ));
 
   return (
     <div className="container-fluid">
