@@ -5,6 +5,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import { CheckCircleOutlined, CloseCircleOutlined } from "@ant-design/icons";
 import ShowPaymentInfo from "../../components/cards/ShowPaymentInfo";
+import Invoice from "../../components/order/invoice";
 import {
   Document,
   Page,
@@ -20,6 +21,58 @@ const History = () => {
 
   // redux State
   const { user } = useSelector((state) => ({ ...state }));
+
+  const styles = StyleSheet.create({
+    body: {
+      paddingTop: 35,
+      paddingBottom: 65,
+      paddingHorizontal: 35,
+    },
+    title: {
+      fontSize: 24,
+      textAlign: "center",
+    },
+    author: {
+      fontSize: 12,
+      textAlign: "center",
+      marginBottom: 40,
+    },
+    subtitle: {
+      fontSize: 18,
+      margin: 12,
+    },
+    text: {
+      margin: 12,
+      fontSize: 14,
+      textAlign: "justify",
+    },
+    image: {
+      marginVertical: 15,
+      marginHorizontal: 100,
+    },
+    header: {
+      fontSize: 12,
+      marginBottom: 20,
+      textAlign: "center",
+      color: "grey",
+    },
+    footer: {
+      padding: "100px",
+      fontSize: 12,
+      marginBottom: 20,
+      textAlign: "center",
+      color: "grey",
+    },
+    pageNumber: {
+      position: "absolute",
+      fontSize: 12,
+      bottom: 30,
+      left: 0,
+      right: 0,
+      textAlign: "center",
+      color: "grey",
+    },
+  });
 
   useEffect(() => {
     loadOrders();
@@ -79,19 +132,9 @@ const History = () => {
       </div>
     ));
 
-  const showDownloadLink = () => (
+  const showDownloadLink = (order) => (
     <PDFDownloadLink
-      document={
-        <Document>
-          <Page>
-            <View>
-              <Text>Sectio #1</Text>
-              <Text>Sectio #1</Text>
-              <Text>Sectio #1</Text>
-            </View>
-          </Page>
-        </Document>
-      }
+      document={<Invoice order={order} />}
       fileName="invoice.pdf"
       className="btn btn-sm btn-block btn-outline-primary"
     >
