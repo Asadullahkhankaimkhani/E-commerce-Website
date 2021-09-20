@@ -9,7 +9,7 @@ export const getOrders = async (authToken) =>
 
 export const changeStatus = async (orderId, orderStatus, authToken) =>
   await axios.put(
-    `${process.env.REACT_APP_API}/admin`,
+    `${process.env.REACT_APP_API}/admin/order-status`,
     { orderId, orderStatus },
     {
       headers: {

@@ -11,9 +11,10 @@ exports.orders = async (req, res) => {
 };
 // Order status Function
 exports.orderStatus = async (req, res) => {
+  // return;
   const { orderId, orderStatus } = req.body;
 
-  let updated = await Order.findOneAndUpdate(
+  let updated = await Order.findByIdAndUpdate(
     orderId,
     { orderStatus },
     { new: true }
