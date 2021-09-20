@@ -27,7 +27,7 @@ const Wishlist = () => {
   // };
 
   const handleRemove = async (productId) => {
-    const { data } = removeWishlist(productId, user.token);
+    const { data } = await removeWishlist(productId, user.token);
     toast("Item is deleted");
     loadWishlist();
   };
