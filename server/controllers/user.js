@@ -1,3 +1,5 @@
+/** @format */
+
 const User = require("../models/users");
 const Product = require("../models/product");
 const Cart = require("../models/cart");
@@ -166,6 +168,16 @@ exports.wishlist = async (req, res) => {
 
   res.json(list);
 };
+exports.removeFromWishlist = async (req, res) => {
+  const { productId } = req.params;
+  const user = await User.findOneAndUpdate(
+    { email: req.user.email },
+    { $pull: { wishlist: productId } }
+  ).exec();
+
+  res.json({ ok: true });
+};
+
 exports.removeFromWishlist = async (req, res) => {
   const { productId } = req.params;
   const user = await User.findOneAndUpdate(

@@ -1,3 +1,5 @@
+/** @format */
+
 const express = require("express");
 const router = express.Router();
 
@@ -30,7 +32,7 @@ router.post("/user/cart/coupon", authCheck, applyCouponToUserCart);
 // wishlist
 router.post("/user/wishlist", authCheck, addToWishlist);
 router.get("/user/wishlist", authCheck, wishlist);
-router.put("user/wishlist/:productId", authCheck, removeFromWishlist);
+router.put("/user/wishlist/:productId", authCheck, removeFromWishlist);
 
 // router.get("/user", (req, res) => {
 //   res.json({ name: "Asadullah Khan" });

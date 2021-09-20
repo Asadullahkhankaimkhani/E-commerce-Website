@@ -1,3 +1,5 @@
+/** @format */
+
 import React from "react";
 import { Document, Page, Text, StyleSheet } from "@react-pdf/renderer";
 import {

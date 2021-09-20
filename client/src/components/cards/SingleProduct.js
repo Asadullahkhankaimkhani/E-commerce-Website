@@ -1,3 +1,4 @@
+/** @format */
 import React, { useState } from "react";
 import { Card, Tabs, Tooltip } from "antd";
 import { Link } from "react-router-dom";
@@ -11,6 +12,9 @@ import RatingModal from "../modal/RatingModal";
 import { showAverage } from "../../functions/rating";
 import _ from "lodash";
 import { useSelector, useDispatch } from "react-redux";
+import { addWishlist } from "../../functions/user";
+import { toast } from "react-toastify";
+import { useHistory } from "react-router";
 
 const SingleProduct = ({ product, onStarClick, star }) => {
   const { title, images, description, _id } = product;
@@ -19,6 +23,7 @@ const SingleProduct = ({ product, onStarClick, star }) => {
   // redux
   const { user, cart } = useSelector((state) => ({ ...state }));
   const dispatch = useDispatch();
+  const history = useHistory();
 
   const handleToAddToCart = () => {
     // Create cart array
@@ -53,53 +58,61 @@ const SingleProduct = ({ product, onStarClick, star }) => {
     });
   };
 
+  const handleAddWishlist = async (e) => {
+    e.preventDefault();
+    const { data } = await addWishlist(product._id, user.token);
+    console.log(data);
+    toast.success("Successfully added in Wishlist");
+    history.push("/user/wishlist");
+  };
+
   return (
     <>
-      <div className="col-md-7">
+      <div className='col-md-7'>
         {images && images.length ? (
           <Carousel showArrows={true} autoPlay infiniteLoop>
             {images.map((i) => (
               // eslint-disable-next-line jsx-a11y/img-redundant-alt
-              <img key={i.url} src={i.url} alt="Product Image" />
+              <img key={i.url} src={i.url} alt='Product Image' />
             ))}
           </Carousel>
         ) : (
           <Card
-            cover={<img src={Laptop} alt="No Product" className="card-image" />}
-          ></Card>
+            cover={
+              <img src={Laptop} alt='No Product' className='card-image' />
+            }></Card>
         )}
-        <Tabs type="card">
-          <TabPane key="1" tab="Description">
+        <Tabs type='card'>
+          <TabPane key='1' tab='Description'>
             {description && description}
           </TabPane>
-          <TabPane key="2" tab="More">
+          <TabPane key='2' tab='More'>
             Call us on 0333 25906061
           </TabPane>
         </Tabs>
       </div>
-      <div className="col-md-5">
-        <h1 className="bg-info p-3">{title}</h1>
+      <div className='col-md-5'>
+        <h1 className='bg-info p-3'>{title}</h1>
         <div>
           {product && product.ratings && product.ratings.length > 0 ? (
             showAverage(product)
           ) : (
-            <div className="text-center pt-1 pb-3">No Rating yet</div>
+            <div className='text-center pt-1 pb-3'>No Rating yet</div>
           )}
         </div>
         <Card
           actions={[
-            <Tooltip key="tooltip" title={tooltip}>
+            <Tooltip key='tooltip' title={tooltip}>
               <a
                 onClick={product.quantity < 1 ? "" : handleToAddToCart}
-                key="productadd"
-                disabled={product.quantity < 1}
-              >
-                <ShoppingCartOutlined className="text-danger" />
+                key='productadd'
+                disabled={product.quantity < 1}>
+                <ShoppingCartOutlined className='text-danger' />
                 <br /> {product.quantity < 1 ? "Out of Stock" : "Add to cart"}
               </a>
             </Tooltip>,
-            <Link to="/">
-              <HeartOutlined className="text-info" /> <br /> Add to Wishlist
+            <Link onClick={handleAddWishlist}>
+              <HeartOutlined className='text-info' /> <br /> Add to Wishlist
             </Link>,
             <RatingModal>
               <StarRating
@@ -108,11 +121,10 @@ const SingleProduct = ({ product, onStarClick, star }) => {
                 rating={star}
                 changeRating={onStarClick}
                 isSelectable={true}
-                starRatedColor="red"
+                starRatedColor='red'
               />
             </RatingModal>,
-          ]}
-        >
+          ]}>
           <ProductListItems product={product} />
         </Card>
       </div>
