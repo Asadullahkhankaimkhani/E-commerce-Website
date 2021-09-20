@@ -5,9 +5,7 @@ const Wishlist = () => {
   return (
     <div className="container-fluid">
       <div className="row">
-        <div className="col-md-2">
-          <UserNav />
-        </div>
+        <UserNav />
         <div className="col">Wishlist Page</div>
       </div>
     </div>

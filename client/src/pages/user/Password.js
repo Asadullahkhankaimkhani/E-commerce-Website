@@ -2,10 +2,14 @@ import React, { useState } from "react";
 import UserNav from "../../components/nav/UserNav";
 import { auth } from "../../firebase";
 import { toast } from "react-toastify";
+import AdminNav from "../../components/nav/AdminNav";
+import { useSelector } from "react-redux";
+
 import { LoadingOutlined } from "@ant-design/icons";
 const Password = () => {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
+  const { user } = useSelector((state) => ({ ...state }));
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -49,7 +53,9 @@ const Password = () => {
     <div className="container-fluid">
       <div className="row">
         <div className="col-md-2">
-          <UserNav />
+          <div className="col-md-2">
+            {user.role === "admin" ? <AdminNav /> : <UserNav />}
+          </div>
         </div>
         <div className="col">
           <h1>Password Page</h1>
