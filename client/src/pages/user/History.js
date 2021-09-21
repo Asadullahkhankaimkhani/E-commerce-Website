@@ -26,15 +26,15 @@ const History = () => {
   };
 
   const showOrderInTable = (order) => (
-    <table className='table table-bordered'>
-      <thead className='thead-light'>
+    <table className="table table-bordered">
+      <thead className="thead-light">
         <tr>
-          <th scope='col'>Title</th>
-          <th scope='col'>Price</th>
-          <th scope='col'>Brands</th>
-          <th scope='col'>Color</th>
-          <th scope='col'>Count</th>
-          <th scope='col'>Shipping</th>
+          <th scope="col">Title</th>
+          <th scope="col">Price</th>
+          <th scope="col">Brands</th>
+          <th scope="col">Color</th>
+          <th scope="col">Count</th>
+          <th scope="col">Shipping</th>
         </tr>
       </thead>
       <tbody>
@@ -62,30 +62,31 @@ const History = () => {
   const showDownloadLink = (order) => (
     <PDFDownloadLink
       document={<Invoice order={order} />}
-      fileName='invoice.pdf'
-      className='btn btn-sm btn-block btn-outline-primary'>
+      fileName="invoice.pdf"
+      className="btn btn-sm btn-block btn-outline-primary"
+    >
       Download PDF
     </PDFDownloadLink>
   );
 
   const showEachOrders = () =>
     orders.map((order, i) => (
-      <div key={i} className='m-5 p-3 card'>
+      <div key={i} className="m-5 p-3 card">
         <ShowPaymentInfo order={order} />
         {showOrderInTable(order)}
-        <div className='row'>
-          <div className='col'>{showDownloadLink(order)}</div>
+        <div className="row">
+          <div className="col">{showDownloadLink(order)}</div>
         </div>
       </div>
     ));
 
   return (
-    <div className='container-fluid'>
-      <div className='row'>
-        <div className='col-sm-2'>
+    <div className="container-fluid">
+      <div className="row">
+        <div className="col-sm-2">
           <UserNav />
         </div>
-        <div className='col text-center'>
+        <div className="col text-center">
           <h4>
             {" "}
             {orders.length > 0 ? "User purchase orders" : "No purchase orders"}

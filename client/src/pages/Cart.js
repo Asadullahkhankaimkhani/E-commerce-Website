@@ -26,6 +26,22 @@ const Cart = ({ history }) => {
     }
   };
 
+  const saveCashOrderToDb = async () => {
+    try {
+      dispatch({
+        type: "COD",
+        payload: true,
+      });
+
+      const { data } = await userCart(cart, user.token);
+      if (data.ok) {
+        history.push("/checkout");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const showCartItems = () => (
     <table className="table table-bordered">
       <thead className="thead-light">
@@ -80,13 +96,23 @@ const Cart = ({ history }) => {
           </p>
           <hr />
           {user ? (
-            <button
-              onClick={saveOrderToDb}
-              className="btn btn-sm btn-primary mt-2"
-              disabled={!cart.length}
-            >
-              Proceed to Checkout
-            </button>
+            <>
+              <button
+                onClick={saveOrderToDb}
+                className="btn btn-sm btn-primary mt-2"
+                disabled={!cart.length}
+              >
+                Proceed to Checkout
+              </button>
+              <br />
+              <button
+                onClick={saveCashOrderToDb}
+                className="btn btn-sm btn-danger mt-2"
+                disabled={!cart.length}
+              >
+                Pay Cash on Delivery
+              </button>
+            </>
           ) : (
             <button className="btn btn-sm btn-primary mt2">
               <Link
