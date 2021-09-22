@@ -18,7 +18,6 @@ exports.createPaymentIntent = async (req, res) => {
     orderdBy: user._id,
   }).exec();
   console.log(cartTotal);
-
   let finalAmount = 0;
 
   if (couponApplied && totalAfterDiscount) {

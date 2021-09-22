@@ -94,10 +94,14 @@ export const addWishlist = async (productId, authtoken) =>
     }
   );
 
-export const createCashOrderForUser = async (authtoken, cod) =>
+export const createCashOrderForUser = async (
+  authtoken,
+  cod,
+  couponTrueOrFalse
+) =>
   await axios.post(
     `${process.env.REACT_APP_API}/user/cash-order`,
-    { cod },
+    { cod, couponApplied: couponTrueOrFalse },
     {
       headers: {
         authtoken,

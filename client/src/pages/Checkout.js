@@ -22,6 +22,7 @@ const Checkout = ({ history }) => {
 
   const dispatch = useDispatch();
   const { user, cod } = useSelector((state) => ({ ...state }));
+  const couponTrueOrFalse = useSelector((state) => state.coupon);
 
   useEffect(() => {
     getUserCart(user.token).then(({ data }) => {
@@ -121,11 +122,69 @@ const Checkout = ({ history }) => {
     </>
   );
 
-  const createCashOrder = () => {
-    createCashOrderForUser(user.token, cod).then(({ data }) => {
-      console.log("User cash order created res", data);
-    });
-    //  empty cart from redux . local storage . reset coupon , rest cod , redirect
+  const createCashOrder = async () => {
+    const { data } = await createCashOrderForUser(
+      user.token,
+      cod,
+      couponTrueOrFalse
+    );
+    if (data.ok) {
+      // empty local storage
+      if (typeof windwp !== "undefined") localStorage.removeItem("cart");
+      // empty redux coupon
+      dispatch({
+        type: "COUPON_APPLIED",
+        payload: false,
+      });
+      // empty redux cod
+      dispatch({
+        type: "COD",
+        payload: false,
+      });
+      // empty cart
+      dispatch({
+        type: "ADD_TO_CART",
+        payload: [],
+      });
+      // empty user cart
+      emptyUserCart(user.token);
+      // redirect
+      setTimeout(() => {
+        history.push("/user/history");
+      }, 1000);
+    }
+
+    // createCashOrderForUser(user.token, cod, couponTrueOrFalse).then(
+    //   ({ data }) => {
+    //       console.log("User cash order created res", data)
+    //   }
+    //     //  empty cart from redux . local storage . reset coupon , rest cod , redirect
+    //   if (data.ok) {
+    //     // empty local storage
+    //     if (typeof windwp !== "undefined") localStorage.removeItem("cart");
+    //     // empty redux coupon
+    //     dispatch({
+    //       type: "COUPON_APPLIED",
+    //       payload: false,
+    //     });
+    //     // empty redux cod
+    //     dispatch({
+    //       type: "COD",
+    //       payload: false,
+    //     });
+    //     // empty cart
+    //     dispatch({
+    //       type: "ADD_TO_CART",
+    //       payload: [],
+    //     });
+    //     // empty user cart
+    //     emptyUserCart(user.token);
+    //     // redirect
+    //     setTimeout(() => {
+    //       history.push("/user/history");
+    //     }, 1000);
+    //   }
+    // };
   };
 
   return (
