@@ -122,7 +122,7 @@ const Checkout = ({ history }) => {
   );
 
   const createCashOrder = () => {
-    createCashOrderForUser(user.token).then(({ data }) => {
+    createCashOrderForUser(user.token, cod).then(({ data }) => {
       console.log("User cash order created res", data);
     });
     //  empty cart from redux . local storage . reset coupon , rest cod , redirect
